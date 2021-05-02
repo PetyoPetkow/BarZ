@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using BarZ.Data;
-using BarZ.Data.Models;
+﻿namespace BarZ.Areas.Bar_reviews.Controllers 
+{ 
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using BarZ.Data;
+    using BarZ.Data.Models;
+    using BarZ.Areas.Bar_reviews.Controllers;
 
-namespace BarZ.Controllers
-{
-    public class BarsController : Controller
+    public class BarsController : BarReviewsController
     {
         private readonly ApplicationDbContext _context;
 

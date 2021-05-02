@@ -20,4 +20,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Bar-reviews\Data\" />
+    <Folder Include="Areas\Bar-reviews\Models\Bars\" />
+    <Folder Include="Areas\Bar-reviews\Models\Destinations\" />
+  </ItemGroup>
+
 </Project>
