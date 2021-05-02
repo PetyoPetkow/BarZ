@@ -7,7 +7,6 @@
     using BarZ.Data;
     using BarZ.Data.Models;
     using BarZ.Areas.Bar_reviews.Controllers;
-
     public class DestinationsController : BarReviewsController
     {
         private readonly ApplicationDbContext _context;
@@ -20,7 +19,7 @@
         // GET: Destinations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Destination.ToListAsync());
+            return View(await _context.Destinations.ToListAsync());
         }
 
         // GET: Destinations/Details/5
@@ -31,7 +30,7 @@
                 return NotFound();
             }
 
-            var destination = await _context.Destination
+            var destination = await _context.Destinations
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (destination == null)
             {
@@ -71,7 +70,7 @@
                 return NotFound();
             }
 
-            var destination = await _context.Destination.FindAsync(id);
+            var destination = await _context.Destinations.FindAsync(id);
             if (destination == null)
             {
                 return NotFound();
@@ -122,7 +121,7 @@
                 return NotFound();
             }
 
-            var destination = await _context.Destination
+            var destination = await _context.Destinations
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (destination == null)
             {
@@ -137,15 +136,15 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var destination = await _context.Destination.FindAsync(id);
-            _context.Destination.Remove(destination);
+            var destination = await _context.Destinations.FindAsync(id);
+            _context.Destinations.Remove(destination);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool DestinationExists(int id)
         {
-            return _context.Destination.Any(e => e.Id == id);
+            return _context.Destinations.Any(e => e.Id == id);
         }
     }
 }

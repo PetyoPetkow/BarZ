@@ -8,6 +8,7 @@
     using BarZ.Data;
     using BarZ.Data.Models;
     using BarZ.Areas.Bar_reviews.Controllers;
+    using BarZ.Areas.Bar_reviews.Models.Bars.ViewModels;
 
     public class BarsController : BarReviewsController
     {
@@ -21,33 +22,54 @@
         // GET: Bars
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Bar.Include(b => b.Destination);
+            var applicationDbContext = _context.Bars.Include(b => b.Destination);
             return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Bars/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            BarViewModel bar = _context.Bars
+               .Select(bar => new BarViewModel
+               {
+                   Id = bar.Id,
+                   Name = bar.Name,
+                   BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
+                   EndOfTheWorkDay = bar.EndOfTheWorkDay,
+                   Description = bar.Description,
+                   FacebookPageUrl = bar.FacebookPageUrl,
+                   Destination = bar.Destination,
+               })
+               .Where(bar => bar.Id == id)
+               .SingleOrDefault();
+
+            bool isNull = bar == null;
+            if (isNull)
             {
-                return NotFound();
+                return this.BadRequest();
             }
 
-            var bar = await _context.Bar
-                .Include(b => b.Destination)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (bar == null)
-            {
-                return NotFound();
-            }
+            return this.View(bar);
+            //if (id == null)
+            //{
+            //    return NotFound();
+            //}
 
-            return View(bar);
+            //var bar = await _context.Bar
+            //    .Include(b => b.Destination)
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+            //if (bar == null)
+            //{
+            //    return NotFound();
+            //}
+
+            //return View(bar);
         }
 
         // GET: Bars/Create
         public IActionResult Create()
         {
-            ViewData["DestinationId"] = new SelectList(_context.Destination, "Id", "Name");
+            ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name");
             return View();
         }
 
@@ -64,7 +86,7 @@
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DestinationId"] = new SelectList(_context.Destination, "Id", "Name", bar.DestinationId);
+            ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name", bar.DestinationId);
             return View(bar);
         }
 
@@ -76,12 +98,12 @@
                 return NotFound();
             }
 
-            var bar = await _context.Bar.FindAsync(id);
+            var bar = await _context.Bars.FindAsync(id);
             if (bar == null)
             {
                 return NotFound();
             }
-            ViewData["DestinationId"] = new SelectList(_context.Destination, "Id", "Name", bar.DestinationId);
+            ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name", bar.DestinationId);
             return View(bar);
         }
 
@@ -117,7 +139,7 @@
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DestinationId"] = new SelectList(_context.Destination, "Id", "Name", bar.DestinationId);
+            ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name", bar.DestinationId);
             return View(bar);
         }
 
@@ -129,7 +151,7 @@
                 return NotFound();
             }
 
-            var bar = await _context.Bar
+            var bar = await _context.Bars
                 .Include(b => b.Destination)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (bar == null)
@@ -145,15 +167,15 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var bar = await _context.Bar.FindAsync(id);
-            _context.Bar.Remove(bar);
+            var bar = await _context.Bars.FindAsync(id);
+            _context.Bars.Remove(bar);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool BarExists(int id)
         {
-            return _context.Bar.Any(e => e.Id == id);
+            return _context.Bars.Any(e => e.Id == id);
         }
     }
 }

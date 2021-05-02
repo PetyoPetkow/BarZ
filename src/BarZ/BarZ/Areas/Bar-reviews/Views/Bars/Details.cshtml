@@ -1,7 +1,8 @@
-﻿@model BarZ.Data.Models.Bar
+﻿@model BarViewModel
 
 @{
     ViewData["Title"] = "Details";
+
 }
 
 <h1>Details</h1>
@@ -10,40 +11,35 @@
     <h4>Bar</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Name)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BeginningOfTheWorkDay)
+        <dt class="col-sm-2">
+            Work Time
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BeginningOfTheWorkDay)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EndOfTheWorkDay)
-        </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BeginningOfTheWorkDay) - 
             @Html.DisplayFor(model => model.EndOfTheWorkDay)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Description)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Description)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FacebookPageUrl)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FacebookPageUrl)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Destination)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Destination.Name)
         </dd>
     </dl>

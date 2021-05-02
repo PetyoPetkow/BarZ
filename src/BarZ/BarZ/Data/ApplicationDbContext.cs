@@ -13,7 +13,7 @@ namespace BarZ.Data
             : base(options)
         {
         }
-        public DbSet<BarZ.Data.Models.Bar> Bar { get; set; }
-        public DbSet<BarZ.Data.Models.Destination> Destination { get; set; }
+        public DbSet<Bar> Bars { get; set; }
+        public DbSet<Destination> Destinations { get; set; }
     }
 }

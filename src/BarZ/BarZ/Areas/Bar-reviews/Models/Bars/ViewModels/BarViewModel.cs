@@ -1,42 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BarZ.Data.Models
+﻿namespace BarZ.Areas.Bar_reviews.Models.Bars.ViewModels
 {
+    using BarZ.Data.Models;
+    using System;
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
 
-    public class Bar
+    public class BarViewModel
     {
-        public Bar()
-        {
-
-        }
-
-        [Key]
         public int Id { get; set; }
 
-        [Required]
-        [MinLength(2)]
-        [MaxLength(64)]
         public string Name { get; set; }
 
+        [DisplayName("Work from")]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Time)]
         public DateTime BeginningOfTheWorkDay { get; set; }
 
+
+        [DisplayName("To")]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Time)]
         public DateTime EndOfTheWorkDay { get; set; }
 
-        [Required]
+
+        [DisplayName("Review")]
         public string Description { get; set; }
 
+        [DisplayName("Facebook page")]
         public string FacebookPageUrl { get; set; }
 
-        [Required]
-        public int DestinationId { get; set; }
-        public virtual Destination Destination {get; set; }
+        public virtual Destination Destination { get; set; }
     }
 }
+
