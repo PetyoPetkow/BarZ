@@ -14,6 +14,6 @@ namespace BarZ.Data
         {
         }
         public DbSet<BarZ.Data.Models.Bar> Bar { get; set; }
-        public DbSet<BarZ.Data.Models.CityOrResort> CityOrResort { get; set; }
+        public DbSet<BarZ.Data.Models.Destination> Destination { get; set; }
     }
 }

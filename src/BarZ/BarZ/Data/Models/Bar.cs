@@ -31,7 +31,7 @@ namespace BarZ.Data.Models
         public string FacebookPageUrl { get; set; }
 
         [Required]
-        public int CityOrResortId { get; set; }
-        public virtual CityOrResort CityOrResort {get; set; }
+        public int DestinationId { get; set; }
+        public virtual Destination Destination {get; set; }
     }
 }
