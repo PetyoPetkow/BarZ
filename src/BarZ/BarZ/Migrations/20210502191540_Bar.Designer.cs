@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BarZ.Data.Migrations
+namespace BarZ.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210502113330_BarsAndDestinations")]
-    partial class BarsAndDestinations
+    [Migration("20210502191540_Bar")]
+    partial class Bar
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,7 +28,7 @@ namespace BarZ.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("BeginningOfTheWorkDay")
+                    b.Property<DateTime>("BeginningOfTheWorkDay")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -38,7 +38,7 @@ namespace BarZ.Data.Migrations
                     b.Property<int>("DestinationId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("EndOfTheWorkDay")
+                    b.Property<DateTime>("EndOfTheWorkDay")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FacebookPageUrl")
@@ -53,7 +53,7 @@ namespace BarZ.Data.Migrations
 
                     b.HasIndex("DestinationId");
 
-                    b.ToTable("Bar");
+                    b.ToTable("Bars");
                 });
 
             modelBuilder.Entity("BarZ.Data.Models.Destination", b =>
@@ -70,7 +70,7 @@ namespace BarZ.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Destination");
+                    b.ToTable("Destinations");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -9,14 +9,18 @@
     using BarZ.Data.Models;
     using BarZ.Areas.Bar_reviews.Controllers;
     using BarZ.Areas.Bar_reviews.Models.Bars.ViewModels;
+    using BarZ.Services;
+    using BarZ.Services.Interfaces;
 
     public class BarsController : BarReviewsController
     {
+        private readonly IBarsService barsService;
         private readonly ApplicationDbContext _context;
 
-        public BarsController(ApplicationDbContext context)
+        public BarsController(ApplicationDbContext context, IBarsService barsService)
         {
             _context = context;
+            this.barsService = barsService;
         }
 
         // GET: Bars
@@ -29,41 +33,16 @@
         // GET: Bars/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            BarViewModel bar = _context.Bars
-               .Select(bar => new BarViewModel
-               {
-                   Id = bar.Id,
-                   Name = bar.Name,
-                   BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
-                   EndOfTheWorkDay = bar.EndOfTheWorkDay,
-                   Description = bar.Description,
-                   FacebookPageUrl = bar.FacebookPageUrl,
-                   Destination = bar.Destination,
-               })
-               .Where(bar => bar.Id == id)
-               .SingleOrDefault();
+            BarViewModel bar = this.barsService.GetById(id);
 
             bool isNull = bar == null;
+            
             if (isNull)
             {
                 return this.BadRequest();
             }
 
             return this.View(bar);
-            //if (id == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //var bar = await _context.Bar
-            //    .Include(b => b.Destination)
-            //    .FirstOrDefaultAsync(m => m.Id == id);
-            //if (bar == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //return View(bar);
         }
 
         // GET: Bars/Create

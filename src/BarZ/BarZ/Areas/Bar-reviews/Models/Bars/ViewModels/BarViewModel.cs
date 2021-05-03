@@ -11,13 +11,13 @@
 
         public string Name { get; set; }
 
-        [DisplayName("Work from")]
+        [DisplayName("Open")]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Time)]
         public DateTime BeginningOfTheWorkDay { get; set; }
 
 
-        [DisplayName("To")]
+        [DisplayName("Close")]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Time)]
         public DateTime EndOfTheWorkDay { get; set; }

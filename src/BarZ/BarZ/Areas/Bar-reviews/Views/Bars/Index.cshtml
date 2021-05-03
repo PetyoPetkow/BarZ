@@ -16,10 +16,7 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BeginningOfTheWorkDay)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndOfTheWorkDay)
+                Work time
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Description)
@@ -40,9 +37,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.BeginningOfTheWorkDay)
-            </td>
-            <td>
+                @Html.DisplayFor(modelItem => item.BeginningOfTheWorkDay) -
                 @Html.DisplayFor(modelItem => item.EndOfTheWorkDay)
             </td>
             <td>

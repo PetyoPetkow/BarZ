@@ -1,4 +1,6 @@
 using BarZ.Data;
+using BarZ.Services;
+using BarZ.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +37,8 @@ namespace BarZ
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            RegisterDatabaseServices(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,6 +74,11 @@ namespace BarZ
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+        }
+        private static void RegisterDatabaseServices(IServiceCollection services)
+        {
+            services.AddScoped<IBarsService, BarsService>();        
         }
     }
 }
