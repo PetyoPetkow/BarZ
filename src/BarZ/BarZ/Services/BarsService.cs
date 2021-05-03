@@ -18,6 +18,24 @@
             this.dbContext = dbContext;
         }
 
+        public IEnumerable<BarViewModel> GetAll()
+        {
+            IEnumerable<BarViewModel> bars = this.dbContext.Bars
+                .Select(bar => new BarViewModel
+                {
+                    Id = bar.Id,
+                    Name = bar.Name,
+                    BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
+                    EndOfTheWorkDay = bar.EndOfTheWorkDay,
+                    Description = bar.Description,
+                    FacebookPageUrl = bar.FacebookPageUrl,
+                    Destination = bar.Destination,
+                })
+                .ToList();
+
+            return bars;
+        }
+
         public BarViewModel GetById(int? id)
         {
             BarViewModel bar = dbContext.Bars

@@ -11,6 +11,7 @@
     using BarZ.Areas.Bar_reviews.Models.Bars.ViewModels;
     using BarZ.Services;
     using BarZ.Services.Interfaces;
+    using System.Collections.Generic;
 
     public class BarsController : BarReviewsController
     {
@@ -26,8 +27,11 @@
         // GET: Bars
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Bars.Include(b => b.Destination);
-            return View(await applicationDbContext.ToListAsync());
+            IEnumerable<BarViewModel> bars = this.barsService.GetAll();
+
+            return this.View(bars);
+            //var applicationDbContext = _context.Bars.Include(b => b.Destination);
+            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Bars/Details/5

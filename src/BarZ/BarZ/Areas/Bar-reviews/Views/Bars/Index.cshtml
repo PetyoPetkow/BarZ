@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BarZ.Data.Models.Bar>
+﻿@model IEnumerable<BarViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,8 +14,9 @@
     @foreach (var item in Model)
     {
         <span class="barIndexModel">
-
             @Html.DisplayFor(modelItem => item.Name)<br />
+            (@Html.DisplayFor(modelItem => item.Destination.Name))
+            <br />
             Work time:
             @Html.DisplayFor(modelItem => item.BeginningOfTheWorkDay) -
             @Html.DisplayFor(modelItem => item.EndOfTheWorkDay)<br />
