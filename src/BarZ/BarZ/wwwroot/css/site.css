@@ -69,3 +69,13 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+.barIndexModel {
+    display: inline-block;
+    width: 49%;
+    border: dotted 1px gray;
+    padding: 10px;
+    margin-bottom:10px;
+}
+.description {
+    word-wrap: break-word;
+}
