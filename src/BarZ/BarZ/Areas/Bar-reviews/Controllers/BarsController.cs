@@ -12,6 +12,7 @@
     using BarZ.Services;
     using BarZ.Services.Interfaces;
     using System.Collections.Generic;
+    using BarZ.Areas.Bar_reviews.Models.Bars.BindingModels;
 
     public class BarsController : BarReviewsController
     {
@@ -30,8 +31,6 @@
             IEnumerable<BarViewModel> bars = this.barsService.GetAll();
 
             return this.View(bars);
-            //var applicationDbContext = _context.Bars.Include(b => b.Destination);
-            //return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Bars/Details/5
@@ -59,18 +58,21 @@
         // POST: Bars/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,BeginningOfTheWorkDay,EndOfTheWorkDay,Description,FacebookPageUrl,DestinationId")] Bar bar)
+        public async Task<IActionResult> Create(BarCreateBindingModel bar)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(bar);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name", bar.DestinationId);
-            return View(bar);
+            await this.barsService.CreateAsync(bar);
+            return this.RedirectToAction("index");
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(bar);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name", bar.DestinationId);
+        //    return View(bar);
         }
 
         // GET: Bars/Edit/5

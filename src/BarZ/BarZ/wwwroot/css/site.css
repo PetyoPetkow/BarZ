@@ -74,7 +74,8 @@ body {
     width: 49%;
     border: dotted 1px gray;
     padding: 10px;
-    margin-bottom:10px;
+    margin-top:10px;
+    vertical-align:top;
 }
 .description {
     word-wrap: break-word;

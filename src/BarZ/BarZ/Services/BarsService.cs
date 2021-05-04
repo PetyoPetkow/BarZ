@@ -1,5 +1,6 @@
 ﻿namespace BarZ.Services
 {
+    using BarZ.Areas.Bar_reviews.Models.Bars.BindingModels;
     using BarZ.Areas.Bar_reviews.Models.Bars.ViewModels;
     using BarZ.Data;
     using BarZ.Data.Models;
@@ -18,6 +19,22 @@
             this.dbContext = dbContext;
         }
 
+        public async Task<int> CreateAsync(BarCreateBindingModel model)
+        { 
+            Bar bar = new Bar();
+            bar.Name = model.Name;
+            bar.BeginningOfTheWorkDay = model.BeginningOfTheWorkDay;
+            bar.EndOfTheWorkDay = model.EndOfTheWorkDay;
+            bar.Description = model.Description;
+            bar.FacebookPageUrl = model.FacebookPageUrl;
+            bar.DestinationId = model.DestinationId;
+
+            await this.dbContext.Bars.AddAsync(bar);
+            await this.dbContext.SaveChangesAsync();
+
+            return bar.Id;
+        }
+
         public IEnumerable<BarViewModel> GetAll()
         {
             IEnumerable<BarViewModel> bars = this.dbContext.Bars
@@ -32,7 +49,6 @@
                     Destination = bar.Destination,
                 })
                 .ToList();
-
             return bars;
         }
 
