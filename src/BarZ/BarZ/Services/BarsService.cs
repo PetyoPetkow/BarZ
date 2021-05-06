@@ -27,7 +27,6 @@
         {
             var res = await ImageService.Upload(model.image, ImageDir);
 
-
             var fullPath =  ImagesFolder + res[1] + res[2];
 
             Bar bar = new Bar();
@@ -87,6 +86,33 @@
                })
                .Where(bar => bar.Id == id)
                .SingleOrDefault();
+
+            return bar;
+        }
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            Bar bar = this.GetBarById(id);
+            bool isNull = bar == null;
+
+            if (isNull)
+            {
+                return false;
+            }
+
+            await ImageService.Delete(id);
+
+            this.dbContext.Bars.Remove(bar);
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        private Bar GetBarById(int id)
+        {
+            Bar bar = this.dbContext.Bars
+                .Where(l => l.Id == id)
+                .SingleOrDefault();
 
             return bar;
         }

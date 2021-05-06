@@ -126,35 +126,45 @@
             return View(bar);
         }
 
-        // GET: Bars/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            await this.barsService.DeleteAsync(id);
 
-            var bar = await _context.Bars
-                .Include(b => b.Destination)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (bar == null)
-            {
-                return NotFound();
-            }
-
-            return View(bar);
+            return this.RedirectToAction("index");
         }
+
+        // GET: Bars/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    var bar = await _context.Bars
+        //        .Include(b => b.Destination)
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (bar == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(bar);
+        //}
 
         // POST: Bars/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var bar = await _context.Bars.FindAsync(id);
-            _context.Bars.Remove(bar);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var bar = await _context.Bars.FindAsync(id);
+        //    _context.Bars.Remove(bar);
+
+        //    await this.barsService.DeleteAsync(bar, webHost.WebRootPath);
+
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         private bool BarExists(int id)
         {

@@ -12,9 +12,11 @@
 
         public string Name { get; set; }
 
-        public IFormFile Image {get;set;}
+        //public IFormFile Image {get;set;}
 
         public string PictureAdress { get; set; }
+
+        public virtual Image Image { get; set; }
 
         [DisplayName("Open")]
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
