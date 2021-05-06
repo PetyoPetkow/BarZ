@@ -77,6 +77,16 @@ body {
     margin-top:10px;
     vertical-align:top;
 }
+@media (max-width: 700px) {
+    .barIndexModel {
+        width:99%;
+    }
+}
 .description {
     word-wrap: break-word;
+}
+.barPicture {
+    width: 90%;
+    height: auto;
+
 }

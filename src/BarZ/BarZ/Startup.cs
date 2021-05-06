@@ -78,7 +78,8 @@ namespace BarZ
         }
         private static void RegisterDatabaseServices(IServiceCollection services)
         {
-            services.AddScoped<IBarsService, BarsService>();        
+            services.AddScoped<IBarsService, BarsService>();
+            services.AddScoped<IImageService, ImageService>();
         }
     }
 }

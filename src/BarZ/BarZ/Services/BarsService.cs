@@ -12,17 +12,27 @@
 
     public class BarsService : IBarsService
     {
+        private const string ImagesFolder = "/Images/";
         private readonly ApplicationDbContext dbContext;
 
-        public BarsService(ApplicationDbContext dbContext)
+        public IImageService ImageService { get; }
+
+        public BarsService(ApplicationDbContext dbContext, IImageService service)
         {
             this.dbContext = dbContext;
+            this.ImageService = service;
         }
 
-        public async Task<int> CreateAsync(BarCreateBindingModel model)
-        { 
+        public async Task<int> CreateAsync(BarCreateBindingModel model,string ImageDir)
+        {
+            var res = await ImageService.Upload(model.image, ImageDir);
+
+
+            var fullPath =  ImagesFolder + res[1] + res[2];
+
             Bar bar = new Bar();
             bar.Name = model.Name;
+            bar.PictureAdress = fullPath;
             bar.BeginningOfTheWorkDay = model.BeginningOfTheWorkDay;
             bar.EndOfTheWorkDay = model.EndOfTheWorkDay;
             bar.Description = model.Description;
@@ -31,6 +41,15 @@
 
             await this.dbContext.Bars.AddAsync(bar);
             await this.dbContext.SaveChangesAsync();
+
+            dbContext.Images.Add(new Image()
+            {
+                ImageDir = res[0],
+                ImageName = res[1],
+                ImageExtention = res[2],
+                Bar = bar,
+            }) ;
+            dbContext.SaveChanges();
 
             return bar.Id;
         }
@@ -42,6 +61,7 @@
                 {
                     Id = bar.Id,
                     Name = bar.Name,
+                    PictureAdress = bar.PictureAdress,
                     BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
                     EndOfTheWorkDay = bar.EndOfTheWorkDay,
                     Description = bar.Description,

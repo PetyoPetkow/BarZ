@@ -1,6 +1,7 @@
 ﻿namespace BarZ.Areas.Bar_reviews.Models.Bars.BindingModels
 {
     using BarZ.Data.Models;
+    using Microsoft.AspNetCore.Http;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,8 @@
         [MinLength(2)]
         [MaxLength(64)]
         public string Name { get; set; }
+
+        public IFormFile image { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Time)]

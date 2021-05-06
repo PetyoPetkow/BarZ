@@ -22,6 +22,10 @@ namespace BarZ.Data.Models
         [MaxLength(64)]
         public string Name { get; set; }
 
+        public string PictureAdress { get; set; }
+
+        public virtual Image Image { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
         [DataType(DataType.Time)]
         public DateTime BeginningOfTheWorkDay { get; set; }

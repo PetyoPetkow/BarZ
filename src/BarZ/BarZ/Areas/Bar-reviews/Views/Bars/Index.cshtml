@@ -13,20 +13,24 @@
 <div class="container">
     @foreach (var item in Model)
     {
-        <span class="barIndexModel">
-            @Html.DisplayFor(modelItem => item.Name)<br />
-            (@Html.DisplayFor(modelItem => item.Destination.Name))
-            <br />
-            Work time:
-            @Html.DisplayFor(modelItem => item.BeginningOfTheWorkDay) -
-            @Html.DisplayFor(modelItem => item.EndOfTheWorkDay)<br />
-            <hr />
-            <span class="description">
-                @Html.DisplayFor(modelItem => item.Description)<br />
-            </span>
-            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-        </span>
+    <span class="barIndexModel">
+        <h2 border="10px solid green">@Html.DisplayFor(modelItem => item.Name)</h2>
+        <p class="font-weight-light">(@Html.DisplayFor(modelItem => item.Destination.Name))</p>
+
+        <img class="rounded mx-auto d-block barPicture" src="@Url.Content(item.PictureAdress)" alt="BarPicture">
+
+        <hr />
+
+        Work time:
+        @Html.DisplayFor(modelItem => item.BeginningOfTheWorkDay) -
+        @Html.DisplayFor(modelItem => item.EndOfTheWorkDay)<br />
+
+        <span class="description">@Html.DisplayFor(modelItem => item.Description)<br /></span>
+        <a href="@Html.DisplayFor(modelItem => item.FacebookPageUrl)">Facebook page</a><br />
+        
+        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+    </span>
     }
 </div>

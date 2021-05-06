@@ -10,12 +10,16 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="image" class="control-label"></label>
+                <input type="file" name="Image" value="" />
             </div>
             <div class="form-group">
                 <label asp-for="BeginningOfTheWorkDay" class="control-label"></label>
@@ -39,7 +43,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DestinationId" class="control-label"></label>
-                <select asp-for="DestinationId" class ="form-control" asp-items="ViewBag.DestinationId"></select>
+                <select asp-for="DestinationId" class="form-control" asp-items="ViewBag.DestinationId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

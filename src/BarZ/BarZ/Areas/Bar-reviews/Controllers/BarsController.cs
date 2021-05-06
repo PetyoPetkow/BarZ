@@ -13,16 +13,21 @@
     using BarZ.Services.Interfaces;
     using System.Collections.Generic;
     using BarZ.Areas.Bar_reviews.Models.Bars.BindingModels;
+    using Microsoft.AspNetCore.Hosting;
 
     public class BarsController : BarReviewsController
     {
         private readonly IBarsService barsService;
+        private readonly IImageService imageService;
+        private readonly IWebHostEnvironment webHost;
         private readonly ApplicationDbContext _context;
 
-        public BarsController(ApplicationDbContext context, IBarsService barsService)
+        public BarsController(ApplicationDbContext context, IBarsService barsService, IImageService imageService, IWebHostEnvironment webHost)
         {
             _context = context;
             this.barsService = barsService;
+            this.imageService = imageService;
+            this.webHost = webHost;
         }
 
         // GET: Bars
@@ -63,16 +68,9 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BarCreateBindingModel bar)
         {
-            await this.barsService.CreateAsync(bar);
+            await this.barsService.CreateAsync(bar, webHost.WebRootPath);
+
             return this.RedirectToAction("index");
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(bar);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name", bar.DestinationId);
-        //    return View(bar);
         }
 
         // GET: Bars/Edit/5

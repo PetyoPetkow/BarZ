@@ -9,6 +9,6 @@ namespace BarZ.Services.Interfaces
     {
         BarViewModel GetById(int? id);
         IEnumerable<BarViewModel> GetAll();
-        Task<int> CreateAsync(BarCreateBindingModel bar);
+        Task<int> CreateAsync(BarCreateBindingModel bar, string ImageDir);
     }
 }

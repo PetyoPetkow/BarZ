@@ -13,6 +13,7 @@ namespace BarZ.Data
             : base(options)
         {
         }
+        public DbSet<Image> Images { get; set; }
         public DbSet<Bar> Bars { get; set; }
         public DbSet<Destination> Destinations { get; set; }
     }
