@@ -1,16 +1,16 @@
-﻿using BarZ.Data;
-using BarZ.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-
-using BarZ.Data.Models;
-using System.Linq;
-
-namespace BarZ.Services
+﻿namespace BarZ.Services
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Http;
+
+    using BarZ.Data;
+    using BarZ.Services.Interfaces;
+    using BarZ.Data.Models;
+
     public class ImageService : IImageService
     {
         private const string ImagesFolder = "Images";
@@ -42,9 +42,7 @@ namespace BarZ.Services
         }
         public async Task Delete(int id)
         {
-            Image image = this.dbContext.Images
-               .Where(i => i.BarId == id)
-               .SingleOrDefault();
+            Image image = this.GetImageById(id);
 
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images", image.ImageName+image.ImageExtention);
 
@@ -52,6 +50,14 @@ namespace BarZ.Services
             {
                 File.Delete(path);
             }
+        }
+        private Image GetImageById(int id)
+        {
+            Image image = this.dbContext.Images
+               .Where(i => i.BarId == id)
+               .SingleOrDefault();
+
+            return image;
         }
     } 
 }

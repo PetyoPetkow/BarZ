@@ -14,6 +14,7 @@
     using System.Collections.Generic;
     using BarZ.Areas.Bar_reviews.Models.Bars.BindingModels;
     using Microsoft.AspNetCore.Hosting;
+    using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
 
     public class BarsController : BarReviewsController
     {
@@ -21,13 +22,15 @@
         private readonly IImageService imageService;
         private readonly IWebHostEnvironment webHost;
         private readonly ApplicationDbContext _context;
+        private readonly IDestinationsService destinationsService;
 
-        public BarsController(ApplicationDbContext context, IBarsService barsService, IImageService imageService, IWebHostEnvironment webHost)
+        public BarsController(ApplicationDbContext context, IBarsService barsService, IImageService imageService, IWebHostEnvironment webHost,IDestinationsService destinationsService)
         {
             _context = context;
             this.barsService = barsService;
             this.imageService = imageService;
             this.webHost = webHost;
+            this.destinationsService = destinationsService;
         }
 
         // GET: Bars
@@ -73,57 +76,56 @@
             return this.RedirectToAction("index");
         }
 
-        // GET: Bars/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //GET: Bars/Edit/5
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var bar = await _context.Bars.FindAsync(id);
-            if (bar == null)
-            {
-                return NotFound();
-            }
-            ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name", bar.DestinationId);
-            return View(bar);
-        }
+        //    var bar = await _context.Bars.FindAsync(id);
+        //    if (bar == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name", bar.DestinationId);
+        //    return View(bar);
+        //}
 
         // POST: Bars/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,BeginningOfTheWorkDay,EndOfTheWorkDay,Description,FacebookPageUrl,DestinationId")] Bar bar)
+   
+        public IActionResult Update(int id)
         {
-            if (id != bar.Id)
+            BarUpdateBindingModel bar = this.barsService.GetByIdForUpdateMethod(id);
+            IEnumerable<IdNameViewModel> destinations = this.destinationsService.GetAll();
+
+            bool isBarsNull = bar == null;
+            bool areDestinationsEmpty = destinations.Count() == 0;
+
+            if (isBarsNull||areDestinationsEmpty)
             {
-                return NotFound();
+                return this.RedirectToAction("index");
             }
 
-            if (ModelState.IsValid)
+            ViewBag.Destinations = destinations;
+            return this.View(bar);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(BarUpdateBindingModel model)
+        {
+
+            bool isUpdated = await this.barsService.UpdateAsync(model);
+            if (isUpdated == false)
             {
-                try
-                {
-                    _context.Update(bar);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BarExists(bar.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return this.BadRequest();
             }
-            ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name", bar.DestinationId);
-            return View(bar);
+
+            return this.RedirectToAction("index");
         }
 
         public async Task<IActionResult> Delete(int id)
@@ -132,43 +134,16 @@
 
             return this.RedirectToAction("index");
         }
-
-        // GET: Bars/Delete/5
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var bar = await _context.Bars
-        //        .Include(b => b.Destination)
-        //        .FirstOrDefaultAsync(m => m.Id == id);
-        //    if (bar == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(bar);
-        //}
-
-        // POST: Bars/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> DeleteConfirmed(int id)
-        //{
-        //    var bar = await _context.Bars.FindAsync(id);
-        //    _context.Bars.Remove(bar);
-
-        //    await this.barsService.DeleteAsync(bar, webHost.WebRootPath);
-
-        //    await _context.SaveChangesAsync();
-        //    return RedirectToAction(nameof(Index));
-        //}
-
         private bool BarExists(int id)
         {
             return _context.Bars.Any(e => e.Id == id);
+        }
+        private Bar GetById(int id)
+        {
+            Bar bar = this._context.Bars
+                .Where(subject => subject.Id == id)
+                .SingleOrDefault();
+                return bar;
         }
     }
 }

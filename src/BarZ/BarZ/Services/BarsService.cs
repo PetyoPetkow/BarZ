@@ -93,8 +93,8 @@
         public async Task<bool> DeleteAsync(int id)
         {
             Bar bar = this.GetBarById(id);
-            bool isNull = bar == null;
 
+            bool isNull = bar == null;
             if (isNull)
             {
                 return false;
@@ -107,7 +107,63 @@
 
             return true;
         }
+        public async Task<bool> UpdateAsync(BarUpdateBindingModel model)
+        {
+            Bar bar = GetBarById(model.Id);
 
+            bool isBarNull = bar == null;
+            if (isBarNull)
+            {
+                return false;
+            }
+
+            bar.Name = model.Name;
+            bar.BeginningOfTheWorkDay = model.BeginningOfTheWorkDay;
+            bar.EndOfTheWorkDay = model.EndOfTheWorkDay;
+            bar.Description = model.Description;
+            bar.FacebookPageUrl = model.FacebookPageUrl;
+            bar.DestinationId = model.DestinationId;
+
+            this.dbContext.Bars.Update(bar);
+            await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+        //public BarUpdateBindingModel GetBarForUpdateById(int id)
+        //{
+        //    BarUpdateBindingModel bar = this.dbContext.Bars
+        //        .Select(b => new BarUpdateBindingModel
+        //        {
+        //            Id = b.Id,
+        //            Name = b.Name,
+        //            BeginningOfTheWorkDay = b.BeginningOfTheWorkDay,
+        //            EndOfTheWorkDay = b.EndOfTheWorkDay,
+        //            Description = b.Description,
+        //            FacebookPageUrl = b.FacebookPageUrl,
+        //            DestinationId = b.DestinationId
+        //        })
+        //        .Where(b=>b.Id == id)
+        //        .SingleOrDefault();
+        //}
+
+        public BarUpdateBindingModel GetByIdForUpdateMethod(int id)
+        {
+            BarUpdateBindingModel bar = this.dbContext.Bars
+                .Select(b => new BarUpdateBindingModel
+                {
+                    Id = b.Id,
+                    Name = b.Name,
+                    BeginningOfTheWorkDay = b.BeginningOfTheWorkDay,
+                    EndOfTheWorkDay = b.EndOfTheWorkDay,
+                    Description = b.Description,
+                    FacebookPageUrl = b.FacebookPageUrl,
+                    DestinationId = b.DestinationId
+                })
+                .Where(b => b.Id == id)
+                .SingleOrDefault();
+
+            return bar;
+        }
         private Bar GetBarById(int id)
         {
             Bar bar = this.dbContext.Bars
@@ -116,5 +172,6 @@
 
             return bar;
         }
+
     }
 }

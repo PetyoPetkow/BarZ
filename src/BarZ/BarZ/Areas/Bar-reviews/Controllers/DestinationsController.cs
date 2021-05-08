@@ -7,19 +7,40 @@
     using BarZ.Data;
     using BarZ.Data.Models;
     using BarZ.Areas.Bar_reviews.Controllers;
+    using System.Collections.Generic;
+    using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
+    using BarZ.Services.Interfaces;
+    using System;
+
     public class DestinationsController : BarReviewsController
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDestinationsService destinationsService;
 
-        public DestinationsController(ApplicationDbContext context)
+        public DestinationsController(ApplicationDbContext context, IDestinationsService destinationsService)
         {
             _context = context;
         }
 
         // GET: Destinations
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.Destinations.ToListAsync());
+        //}
+
+        [HttpGet]
+        public IActionResult Index()
         {
-            return View(await _context.Destinations.ToListAsync());
+            IEnumerable<IdNameViewModel> destinations = this.destinationsService.GetAll();
+
+            DateTime timeNow = DateTime.UtcNow;
+
+            DestinationsViewModel destinationsViewModel = new DestinationsViewModel();
+
+            destinationsViewModel.Destinations = destinations;
+           
+
+            return this.View(destinationsViewModel);
         }
 
         // GET: Destinations/Details/5
@@ -63,7 +84,7 @@
         }
 
         // GET: Destinations/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Update(int? id)
         {
             if (id == null)
             {
@@ -83,7 +104,7 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Destination destination)
+        public async Task<IActionResult> Update(int id, [Bind("Id,Name")] Destination destination)
         {
             if (id != destination.Id)
             {

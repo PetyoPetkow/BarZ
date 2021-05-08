@@ -80,6 +80,7 @@ namespace BarZ
         {
             services.AddScoped<IBarsService, BarsService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IDestinationsService, DestinationsService>();
         }
     }
 }
