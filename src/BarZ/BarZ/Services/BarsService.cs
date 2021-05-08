@@ -7,6 +7,7 @@
     using BarZ.Services.Interfaces;
     using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -23,13 +24,26 @@
             this.ImageService = service;
         }
 
-        public async Task<int> CreateAsync(BarCreateBindingModel model,string ImageDir)
+        public async Task<int> CreateAsync(BarCreateBindingModel model)//,string ImageDir)
         {
-            var res = await ImageService.Upload(model.image, ImageDir);
-
-            var fullPath =  ImagesFolder + res[1] + res[2];
-
             Bar bar = new Bar();
+            var fullPath=string.Empty;
+            if (model.image!=null)
+            {
+                var res = await ImageService.Upload(model.image);//, ImageDir);
+
+                fullPath = ImagesFolder + res[1] + res[2];
+
+                dbContext.Images.Add(new Image()
+                {
+                    ImageDir = res[0],
+                    ImageName = res[1],
+                    ImageExtention = res[2],
+                    Bar = bar,
+                });
+            }
+
+            
             bar.Name = model.Name;
             bar.PictureAdress = fullPath;
             bar.BeginningOfTheWorkDay = model.BeginningOfTheWorkDay;
@@ -41,13 +55,7 @@
             await this.dbContext.Bars.AddAsync(bar);
             await this.dbContext.SaveChangesAsync();
 
-            dbContext.Images.Add(new Image()
-            {
-                ImageDir = res[0],
-                ImageName = res[1],
-                ImageExtention = res[2],
-                Bar = bar,
-            }) ;
+            
             dbContext.SaveChanges();
 
             return bar.Id;
@@ -107,9 +115,31 @@
 
             return true;
         }
-        public async Task<bool> UpdateAsync(BarUpdateBindingModel model)
+        public async Task<bool> UpdateAsync(BarUpdateBindingModel model/*, string ImageDir*/)
         {
             Bar bar = GetBarById(model.Id);
+            Image image = GetBarImage(bar);
+            var fullPath = string.Empty;
+
+            if (model.image!=null)
+            {
+                
+                var res = await ImageService.Upload(model.image);//, ImageDir);
+
+                fullPath = ImagesFolder + res[1] + res[2];
+
+                dbContext.Images.Add(new Image()
+                {
+                    ImageDir = res[0],
+                    ImageName = res[1],
+                    ImageExtention = res[2],
+                    Bar = bar,
+                });
+            }
+            //var res =await ImageService.Upload(model.image);//, ImageDir);
+
+            //var fullPath = ImagesFolder + res[1] + res[2];
+
 
             bool isBarNull = bar == null;
             if (isBarNull)
@@ -118,6 +148,12 @@
             }
 
             bar.Name = model.Name;
+            bar.Image = image;
+
+            if (fullPath!=string.Empty)
+            {
+                bar.PictureAdress = fullPath;
+            }
             bar.BeginningOfTheWorkDay = model.BeginningOfTheWorkDay;
             bar.EndOfTheWorkDay = model.EndOfTheWorkDay;
             bar.Description = model.Description;
@@ -129,30 +165,17 @@
 
             return true;
         }
-        //public BarUpdateBindingModel GetBarForUpdateById(int id)
-        //{
-        //    BarUpdateBindingModel bar = this.dbContext.Bars
-        //        .Select(b => new BarUpdateBindingModel
-        //        {
-        //            Id = b.Id,
-        //            Name = b.Name,
-        //            BeginningOfTheWorkDay = b.BeginningOfTheWorkDay,
-        //            EndOfTheWorkDay = b.EndOfTheWorkDay,
-        //            Description = b.Description,
-        //            FacebookPageUrl = b.FacebookPageUrl,
-        //            DestinationId = b.DestinationId
-        //        })
-        //        .Where(b=>b.Id == id)
-        //        .SingleOrDefault();
-        //}
 
         public BarUpdateBindingModel GetByIdForUpdateMethod(int id)
         {
+            
+            
             BarUpdateBindingModel bar = this.dbContext.Bars
                 .Select(b => new BarUpdateBindingModel
                 {
                     Id = b.Id,
                     Name = b.Name,
+                  
                     BeginningOfTheWorkDay = b.BeginningOfTheWorkDay,
                     EndOfTheWorkDay = b.EndOfTheWorkDay,
                     Description = b.Description,
@@ -172,6 +195,15 @@
 
             return bar;
         }
+        public Image GetBarImage(Bar model)
+        {
+            Image image = this.dbContext.Images.Where(x=>x.BarId==model.Id).FirstOrDefault();
+      
 
+
+            return image;
+        }
+        
+        
     }
 }

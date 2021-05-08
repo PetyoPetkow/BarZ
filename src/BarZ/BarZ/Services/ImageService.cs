@@ -21,8 +21,12 @@
         {
             this.dbContext = dbContext;
         }
-        public async Task<string[]> Upload(IFormFile file, string imageDir)
+        public async Task<string[]> Upload(IFormFile file)//, string imageDir)
         {
+            if (file==null)
+            {
+                return null;
+            }
             var data = new string[3];
             var imageName = Guid.NewGuid().ToString();
             var extension = Path.GetExtension(file.FileName);
@@ -31,7 +35,7 @@
             data[1] = imageName;
             data[2] = extension;
 
-            var fullPath = imageDir + "\\" + ImagesFolder + "\\" + imageName + extension;
+            var fullPath =/* imageDir*/ contentRoot + "\\" + ImagesFolder + "\\" + imageName + extension;
 
             using (var stream = new FileStream(fullPath, FileMode.Create))
             {
@@ -51,6 +55,7 @@
                 File.Delete(path);
             }
         }
+       
         private Image GetImageById(int id)
         {
             Image image = this.dbContext.Images

@@ -71,36 +71,18 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(BarCreateBindingModel bar)
         {
-            await this.barsService.CreateAsync(bar, webHost.WebRootPath);
+             await this.barsService.CreateAsync(bar/*, webHost.WebRootPath*/);
 
             return this.RedirectToAction("index");
         }
 
-        //GET: Bars/Edit/5
-        //public async Task<IActionResult> Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var bar = await _context.Bars.FindAsync(id);
-        //    if (bar == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    ViewData["DestinationId"] = new SelectList(_context.Destinations, "Id", "Name", bar.DestinationId);
-        //    return View(bar);
-        //}
-
-        // POST: Bars/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-   
+        //GET: Bars/Update/5
         public IActionResult Update(int id)
         {
             BarUpdateBindingModel bar = this.barsService.GetByIdForUpdateMethod(id);
             IEnumerable<IdNameViewModel> destinations = this.destinationsService.GetAll();
+            
+            
 
             bool isBarsNull = bar == null;
             bool areDestinationsEmpty = destinations.Count() == 0;
@@ -109,7 +91,7 @@
             {
                 return this.RedirectToAction("index");
             }
-
+            
             ViewBag.Destinations = destinations;
             return this.View(bar);
         }
@@ -119,7 +101,7 @@
         public async Task<IActionResult> Update(BarUpdateBindingModel model)
         {
 
-            bool isUpdated = await this.barsService.UpdateAsync(model);
+            bool isUpdated = await this.barsService.UpdateAsync(model/*, webHost.WebRootPath*/);
             if (isUpdated == false)
             {
                 return this.BadRequest();
@@ -133,17 +115,6 @@
             await this.barsService.DeleteAsync(id);
 
             return this.RedirectToAction("index");
-        }
-        private bool BarExists(int id)
-        {
-            return _context.Bars.Any(e => e.Id == id);
-        }
-        private Bar GetById(int id)
-        {
-            Bar bar = this._context.Bars
-                .Where(subject => subject.Id == id)
-                .SingleOrDefault();
-                return bar;
         }
     }
 }
