@@ -47,8 +47,8 @@
         public async Task Delete(int id)
         {
             Image image = this.GetImageById(id);
-
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images", image.ImageName+image.ImageExtention);
+       
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Images\\", image.ImageName+image.ImageExtention);
 
             if (File.Exists(path))
             {

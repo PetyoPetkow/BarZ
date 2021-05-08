@@ -16,8 +16,7 @@
         private const string ImagesFolder = "/Images/";
         private readonly ApplicationDbContext dbContext;
 
-        public IImageService ImageService { get; }
-
+        public readonly IImageService ImageService;
         public BarsService(ApplicationDbContext dbContext, IImageService service)
         {
             this.dbContext = dbContext;
@@ -121,25 +120,17 @@
             Image image = GetBarImage(bar);
             var fullPath = string.Empty;
 
-            if (model.image!=null)
+            if (image.BarId == model.Id)
             {
-                
+                await ImageService.Delete(bar.Id);
                 var res = await ImageService.Upload(model.image);//, ImageDir);
 
                 fullPath = ImagesFolder + res[1] + res[2];
 
-                dbContext.Images.Add(new Image()
-                {
-                    ImageDir = res[0],
-                    ImageName = res[1],
-                    ImageExtention = res[2],
-                    Bar = bar,
-                });
+                image.ImageDir = res[0];
+                image.ImageName = res[1];
+                image.ImageExtention = res[2];
             }
-            //var res =await ImageService.Upload(model.image);//, ImageDir);
-
-            //var fullPath = ImagesFolder + res[1] + res[2];
-
 
             bool isBarNull = bar == null;
             if (isBarNull)
@@ -148,8 +139,6 @@
             }
 
             bar.Name = model.Name;
-            bar.Image = image;
-
             if (fullPath!=string.Empty)
             {
                 bar.PictureAdress = fullPath;
@@ -175,7 +164,7 @@
                 {
                     Id = b.Id,
                     Name = b.Name,
-                  
+                    PictureAdress=b.PictureAdress,
                     BeginningOfTheWorkDay = b.BeginningOfTheWorkDay,
                     EndOfTheWorkDay = b.EndOfTheWorkDay,
                     Description = b.Description,

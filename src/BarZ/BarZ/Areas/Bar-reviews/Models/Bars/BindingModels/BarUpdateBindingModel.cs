@@ -18,6 +18,8 @@ namespace BarZ.Areas.Bar_reviews.Models.Bars.BindingModels
         [MaxLength(64)]
         public string Name { get; set; }
 
+        public string PictureAdress { get; set; }
+
         public IFormFile image { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
