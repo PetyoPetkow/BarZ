@@ -1,16 +1,17 @@
 ﻿namespace BarZ.Areas.Bar_reviews.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+
+    using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
     using BarZ.Data;
     using BarZ.Data.Models;
-    using BarZ.Areas.Bar_reviews.Controllers;
-    using System.Collections.Generic;
-    using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
     using BarZ.Services.Interfaces;
-    using System;
 
     public class DestinationsController : BarReviewsController
     {
@@ -20,6 +21,7 @@
         public DestinationsController(ApplicationDbContext context, IDestinationsService destinationsService)
         {
             _context = context;
+            this.destinationsService = destinationsService;
         }
 
         // GET: Destinations

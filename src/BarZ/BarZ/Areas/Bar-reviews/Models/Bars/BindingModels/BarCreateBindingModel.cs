@@ -1,10 +1,10 @@
 ﻿namespace BarZ.Areas.Bar_reviews.Models.Bars.BindingModels
 {
-    using BarZ.Data.Models;
-    using Microsoft.AspNetCore.Http;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+
+    using Microsoft.AspNetCore.Http;
 
     public class BarCreateBindingModel
     {

@@ -1,13 +1,12 @@
-﻿using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
-using BarZ.Data;
-using BarZ.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BarZ.Services
+﻿namespace BarZ.Services
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
+    using BarZ.Data;
+    using BarZ.Services.Interfaces;
+
     public class DestinationsService : IDestinationsService
     {
         private readonly ApplicationDbContext dbContext;

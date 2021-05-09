@@ -1,13 +1,13 @@
 ﻿namespace BarZ.Services.Interfaces
 {
-    using BarZ.Data.Models;
-    using Microsoft.AspNetCore.Http;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Http;
+    
     public interface IImageService
     {
-        public Task<string[]> Upload(IFormFile file);//, string imageDir);
-        Task Delete(int id);
+        Task<string[]> Upload(IFormFile file);
+        void Delete(int id);
 
     }
 }

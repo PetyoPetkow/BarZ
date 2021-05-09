@@ -8,8 +8,8 @@
     using Microsoft.AspNetCore.Http;
 
     using BarZ.Data;
-    using BarZ.Services.Interfaces;
     using BarZ.Data.Models;
+    using BarZ.Services.Interfaces;
 
     public class ImageService : IImageService
     {
@@ -21,12 +21,15 @@
         {
             this.dbContext = dbContext;
         }
-        public async Task<string[]> Upload(IFormFile file)//, string imageDir)
+
+        public async Task<string[]> Upload(IFormFile file)
         {
-            if (file==null)
+            bool isFileNull = file == null;
+            if (isFileNull)
             {
                 return null;
             }
+
             var data = new string[3];
             var imageName = Guid.NewGuid().ToString();
             var extension = Path.GetExtension(file.FileName);
@@ -35,7 +38,7 @@
             data[1] = imageName;
             data[2] = extension;
 
-            var fullPath =/* imageDir*/ contentRoot + "\\" + ImagesFolder + "\\" + imageName + extension;
+            var fullPath = contentRoot + "\\" + ImagesFolder + "\\" + imageName + extension;
 
             using (var stream = new FileStream(fullPath, FileMode.Create))
             {
@@ -44,7 +47,8 @@
 
             return data;
         }
-        public async Task Delete(int id)
+
+        public void Delete(int id)
         {
             Image image = this.GetImageById(id);
        
