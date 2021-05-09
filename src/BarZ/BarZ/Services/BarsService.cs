@@ -120,7 +120,8 @@
             Image image = GetBarImage(bar);
             var fullPath = string.Empty;
 
-            if (image.BarId == model.Id)
+            //if (image.BarId == model.Id)
+            if (model.image!=null)
             {
                 await ImageService.Delete(bar.Id);
                 var res = await ImageService.Upload(model.image);//, ImageDir);
