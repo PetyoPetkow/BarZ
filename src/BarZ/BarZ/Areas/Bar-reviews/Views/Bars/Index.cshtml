@@ -13,8 +13,8 @@
 <div class="container">
     @foreach (var item in Model)
     {
-    <span class="barIndexModel">
-        <h2 border="10px solid green">@Html.DisplayFor(modelItem => item.Name)</h2>
+    <div class="barIndexModel">
+        <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
         <p class="font-weight-light">(@Html.DisplayFor(modelItem => item.Destination.Name))</p>
 
         <img class="rounded mx-auto d-block barPicture" src="@Url.Content(item.PictureAdress)" alt="BarPicture">
@@ -31,6 +31,6 @@
         <a asp-action="Update" asp-route-id="@item.Id">Update</a> |
         <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
         <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-    </span>
+    </div>
     }
 </div>

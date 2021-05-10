@@ -18,6 +18,8 @@
         [MaxLength(32)]
         public string Name { get; set; }
 
+        public string Description { get; set; }
+
         public virtual ICollection<Bar> Bars { get; set; }
     }
 }

@@ -87,6 +87,25 @@
             return bar;
         }
 
+        public IEnumerable<BarViewModel> GetAllBarsInDestination(int id)
+        {
+            IEnumerable<BarViewModel> bars = this.dbContext.Bars
+                .Select(bar => new BarViewModel
+                {
+                    Id = bar.Id,
+                    Name = bar.Name,
+                    PictureAdress = bar.PictureAdress,
+                    BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
+                    EndOfTheWorkDay = bar.EndOfTheWorkDay,
+                    Description = bar.Description,
+                    FacebookPageUrl = bar.FacebookPageUrl,
+                    Destination = bar.Destination,
+                })
+                .Where(bar => bar.Destination.Id == id)
+                .ToList();
+            return bars;
+        }
+
         public async Task<int> CreateAsync(BarCreateBindingModel model)
         {
             Bar bar = new Bar();
@@ -176,8 +195,10 @@
             {
                 return false;
             }
-
-            ImageService.Delete(id);
+            if (bar.Image!=null)
+            {
+                ImageService.Delete(id);
+            }
 
             this.dbContext.Bars.Remove(bar);
             await this.dbContext.SaveChangesAsync();

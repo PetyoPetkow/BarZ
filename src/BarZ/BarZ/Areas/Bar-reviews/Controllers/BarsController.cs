@@ -11,6 +11,8 @@
     using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
     using BarZ.Data;
     using BarZ.Services.Interfaces;
+    using Microsoft.EntityFrameworkCore;
+    using BarZ.Data.Models;
 
     public class BarsController : BarReviewsController
     {
@@ -23,6 +25,13 @@
             this.barsService = barsService;
             this.imageService = imageService;
             this.destinationsService = destinationsService;
+        }
+        
+        public IActionResult ShowBarsInDestination(int id)
+        {
+            IEnumerable<BarViewModel> bars = this.barsService.GetAllBarsInDestination(id);      
+                
+            return this.View(bars);
         }
 
         // GET: Bars

@@ -13,6 +13,7 @@
         IEnumerable<BarViewModel> GetAll();
         BarViewModel GetById(int? id);
         BarUpdateBindingModel GetByIdForUpdateMethod(int id);
+        IEnumerable<BarViewModel> GetAllBarsInDestination(int id);
         Task<int> CreateAsync(BarCreateBindingModel bar);
         Task<bool> DeleteAsync(int id);
         Task<bool> UpdateAsync(BarUpdateBindingModel model);

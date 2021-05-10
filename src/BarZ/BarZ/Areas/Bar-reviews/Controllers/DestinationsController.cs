@@ -24,7 +24,7 @@
             this.destinationsService = destinationsService;
         }
 
-        // GET: Destinations
+        //GET: Destinations
         //public async Task<IActionResult> Index()
         //{
         //    return View(await _context.Destinations.ToListAsync());
@@ -34,8 +34,6 @@
         public IActionResult Index()
         {
             IEnumerable<IdNameViewModel> destinations = this.destinationsService.GetAll();
-
-            DateTime timeNow = DateTime.UtcNow;
 
             DestinationsViewModel destinationsViewModel = new DestinationsViewModel();
 
@@ -74,7 +72,7 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Destination destination)
+        public async Task<IActionResult> Create([Bind("Id,Name,Description")] Destination destination)
         {
             if (ModelState.IsValid)
             {
