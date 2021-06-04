@@ -155,16 +155,25 @@
             }
 
             bool doesTheNewModelHavaAPicture = model.image != null;
+            bool doesTheOldModelHaveAPicture = image != null;
             if (doesTheNewModelHavaAPicture)
             {
-                ImageService.Delete(bar.Id);
+                if (doesTheOldModelHaveAPicture)
+                {
+                    ImageService.Delete(bar.Id);
+                }
+
                 var res = await ImageService.Upload(model.image);
 
                 fullPath = ImagesFolder + res[1] + res[2];
 
-                image.ImageDir = res[0];
-                image.ImageName = res[1];
-                image.ImageExtention = res[2];
+                dbContext.Images.Add(new Image()
+                {
+                    ImageDir = res[0],
+                    ImageName = res[1],
+                    ImageExtention = res[2],
+                    Bar = bar,
+                });
             }
 
             bar.Name = model.Name;
@@ -189,13 +198,15 @@
         public async Task<bool> DeleteAsync(int id)
         {
             Bar bar = this.GetBarById(id);
+            Image image = GetBarImage(bar);
 
             bool isNull = bar == null;
             if (isNull)
             {
                 return false;
             }
-            if (bar.Image!=null)
+
+            if (image!=null)
             {
                 ImageService.Delete(id);
             }
