@@ -1,13 +1,14 @@
 ﻿namespace BarZ.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     public class Bar
     {
         public Bar()
         {
-
+            this.BarsFeatures = new HashSet<BarFeature>();
         }
 
         [Key]
@@ -38,5 +39,7 @@
         [Required]
         public int DestinationId { get; set; }
         public virtual Destination Destination {get; set; }
+
+        public virtual ICollection<BarFeature> BarsFeatures { get; set; }
     }
 }
