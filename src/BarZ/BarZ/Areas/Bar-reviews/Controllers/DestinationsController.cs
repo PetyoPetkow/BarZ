@@ -25,35 +25,29 @@
             this.destinationsService = destinationsService;
         }
 
-        //GET: Destinations
-        //public async Task<IActionResult> Index()
-        //{
-        //    return View(await _context.Destinations.ToListAsync());
-        //}
-
         [HttpGet]
         public IActionResult Index()
         {
             IEnumerable<IdNameViewModel> destinations = this.destinationsService.GetAll();
-
             DestinationsViewModel destinationsViewModel = new DestinationsViewModel();
 
             destinationsViewModel.Destinations = destinations;
            
-
             return this.View(destinationsViewModel);
         }
 
         // GET: Destinations/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var destination = await _context.Destinations
-                .FirstOrDefaultAsync(m => m.Id == id);
+            //var destination = await _context.Destinations
+            //    .FirstOrDefaultAsync(m => m.Id == id);
+
+            var destination = destinationsService.GetByIdForDetailsMethod(id);
             if (destination == null)
             {
                 return NotFound();

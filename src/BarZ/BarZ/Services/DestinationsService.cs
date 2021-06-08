@@ -41,6 +41,20 @@
                     Id = d.Id,
                     Name = d.Name,
                     Description = d.Description,
+                })
+                .Where(d => d.Id == id)
+                .SingleOrDefault();
+
+            return destination;
+        }
+        public DestinationViewModel GetByIdForDetailsMethod(int? id)
+        {
+            DestinationViewModel destination = dbContext.Destinations
+                .Select(d => new DestinationViewModel
+                {
+                    Id = d.Id,
+                    Name = d.Name,
+                    Description = d.Description,
                     Bars = d.Bars,
                 })
                 .Where(d => d.Id == id)
@@ -48,7 +62,6 @@
 
             return destination;
         }
-
         public async Task<bool> UpdateAsync(DestinationUpdateBindingModel model)
         {
             Destination destination = GetDestinationById(model.Id);

@@ -10,5 +10,6 @@
         IEnumerable<IdNameViewModel> GetAll();
         DestinationUpdateBindingModel GetByIdForUpdateMethod(int id);
         Task<bool> UpdateAsync(DestinationUpdateBindingModel model);
+        DestinationViewModel GetByIdForDetailsMethod(int? id);
     }
 }
