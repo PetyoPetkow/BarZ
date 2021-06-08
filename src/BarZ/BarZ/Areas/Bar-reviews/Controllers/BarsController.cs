@@ -22,7 +22,13 @@
         private readonly IDestinationsService destinationsService;
         private readonly IBarsFeaturesService BarsFeaturesService;
 
-        public BarsController(IBarsService barsService, IImageService imageService,IDestinationsService destinationsService, IFeaturesService featuresService, IBarsFeaturesService barsFeaturesService)
+        public BarsController(
+            IBarsService barsService, 
+            IImageService imageService,
+            IDestinationsService destinationsService, 
+            IFeaturesService featuresService, 
+            IBarsFeaturesService barsFeaturesService
+            )
         {
             this.barsService = barsService;
             this.imageService = imageService;
