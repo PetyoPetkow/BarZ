@@ -21,7 +21,9 @@
     {
         <div class="barIndexModel">
             <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
-            <p class="font-weight-light">(@Html.DisplayFor(modelItem => item.Destination.Name))</p>
+            <p class="font-weight-light">
+            (@Html.DisplayFor(modelItem => item.Destination.Name))
+            </p>
 
             <img class="rounded mx-auto d-block barPicture" src="@Url.Content(item.PictureAdress)" alt="BarPicture">
 
@@ -36,4 +38,4 @@
         </div>
     }
 </div>
-<a asp-controller="Destinations" asp-action="Index">Back to destination</a>
+<a asp-controller="Destinations" asp-action="Index">Back to destinations</a>
