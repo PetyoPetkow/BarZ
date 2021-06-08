@@ -10,11 +10,6 @@
     public class BarUpdateBindingModel
     {
 
-        public BarUpdateBindingModel()
-        {
-            //FeatureIds = new int[100];
-        }
-
         [Required]
         public int Id { get; set; }
 

@@ -12,6 +12,7 @@
     using BarZ.Data;
     using BarZ.Data.Models;
     using BarZ.Services.Interfaces;
+    using BarZ.Areas.Bar_reviews.Models.Destinations.BindingModels;
 
     public class DestinationsController : BarReviewsController
     {
@@ -84,19 +85,18 @@
         }
 
         // GET: Destinations/Edit/5
-        public async Task<IActionResult> Update(int? id)
+        
+        public IActionResult Update(int id)
         {
-            if (id == null)
+            DestinationUpdateBindingModel destination = this.destinationsService.GetByIdForUpdateMethod(id);
+            
+            bool isDestinationNull = destination == null;  
+            if (isDestinationNull)
             {
-                return NotFound();
+                return this.RedirectToAction("index");
             }
 
-            var destination = await _context.Destinations.FindAsync(id);
-            if (destination == null)
-            {
-                return NotFound();
-            }
-            return View(destination);
+            return this.View(destination);
         }
 
         // POST: Destinations/Edit/5
@@ -104,34 +104,15 @@
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int id, [Bind("Id,Name")] Destination destination)
+        public async Task<IActionResult> Update(DestinationUpdateBindingModel model)
         {
-            if (id != destination.Id)
+            bool isUpdated = await this.destinationsService.UpdateAsync(model);
+            if (isUpdated == false)
             {
-                return NotFound();
+                return this.BadRequest();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(destination);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DestinationExists(destination.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(destination);
+            return this.RedirectToAction("index");
         }
 
         // GET: Destinations/Delete/5

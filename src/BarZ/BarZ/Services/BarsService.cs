@@ -143,27 +143,10 @@
             bar.Description = model.Description;
             bar.FacebookPageUrl = model.FacebookPageUrl;
             bar.DestinationId = model.DestinationId;
-            bar.Features = model.Features;
-
-           
 
             await this.dbContext.Bars.AddAsync(bar);
             await this.dbContext.SaveChangesAsync();
             this.dbContext.SaveChanges();
-
-            List<Feature> features = this.featuresService.GetAll().ToList();
-
-            foreach (var feature in features)
-            {
-                var barFeature = new BarFeature()
-                {
-                    BarId = bar.Id,
-                    FeatureId = feature.Id,
-                };
-                dbContext.BarsFeatures.Add(barFeature);
-                dbContext.SaveChanges();
-            }
-            
 
             return bar.Id;
         }
@@ -202,13 +185,12 @@
                 });
             }
 
-            bar.Name = model.Name;
-
             bool isFullPathNotEmpty = fullPath != string.Empty;
             if (isFullPathNotEmpty)
             {
                 bar.PictureAdress = fullPath;
             }
+            bar.Name = model.Name;
             bar.BeginningOfTheWorkDay = model.BeginningOfTheWorkDay;
             bar.EndOfTheWorkDay = model.EndOfTheWorkDay;
             bar.Description = model.Description;

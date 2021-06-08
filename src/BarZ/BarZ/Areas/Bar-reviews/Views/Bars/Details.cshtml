@@ -21,7 +21,7 @@
             Work Time
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BeginningOfTheWorkDay) - 
+            @Html.DisplayFor(model => model.BeginningOfTheWorkDay) -
             @Html.DisplayFor(model => model.EndOfTheWorkDay)
         </dd>
         <dt class="col-sm-2">
@@ -40,7 +40,7 @@
             @Html.DisplayNameFor(model => model.Destination)
         </dt>
         <dd class="col-sm-10">
-            <a asp-controller="Destinations" asp-action="Details" asp-route-id="@Model.Destination.Id">@Html.DisplayFor(model => model.Destination.Name)</a>
+            <a asp-controller="Destinations" asp-action="Details" asp-route-id="@Model.Destination.Id" class="btn-outline-success">@Html.DisplayFor(model => model.Destination.Name)</a>
         </dd>
     </dl>
 </div>
