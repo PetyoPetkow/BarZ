@@ -4,11 +4,15 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Destinations</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="container">
+    <div class="halfScreenBox">
+        <h1 display="inline" class="col-md-4">Destinations</h1>
+    </div>
+    <div float="right" class="halfScreenBox">
+        <a style="float:right" class="col-md-4 btn btn-info" asp-action="Create">Add destination</a>
+    </div>
+</div>
+<hr />
 <div>
     <ul class="mt-3">
         @{ 
@@ -16,7 +20,8 @@
             {
                 <li>
                     @destination.Name
-                    <a asp-controller="Destinations" asp-action="Details" asp-route-id="@destination.Id">Details</a>
+                    <a asp-controller="Destinations" asp-action="Details" asp-route-id="@destination.Id">Details</a> | 
+                    <a asp-controller="Bars" asp-action="ShowBarsInDestination" asp-route-id="@destination.Id">Bars</a>
                 </li>
             }
         }

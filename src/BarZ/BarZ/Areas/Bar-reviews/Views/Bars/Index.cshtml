@@ -3,34 +3,36 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-<h1>Reviews</h1>
-
-<p>
-    <a asp-action="Create">Create a review</a>
-</p>
+<div class="container">
+    <div class="halfScreenBox">
+        <h1 display="inline" class="col-md-4">Reviews</h1>
+    </div>
+    <div float="right" class="halfScreenBox">
+        <a style="float:right" class="col-md-4 btn btn-info" asp-action="Create">Create a review</a>
+    </div>
+</div>
 
 <div class="container">
     @foreach (var item in Model)
     {
-    <div class="barIndexModel">
-        <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
-        <p class="font-weight-light">(@Html.DisplayFor(modelItem => item.Destination.Name))</p>
+        <div class="barIndexModel">
+            <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
+            <p class="font-weight-light">(@Html.DisplayFor(modelItem => item.Destination.Name))</p>
 
-        <img class="rounded mx-auto d-block barPicture" src="@Url.Content(item.PictureAdress)" alt="BarPicture">
+            <img class="rounded mx-auto d-block barPicture" src="@Url.Content(item.PictureAdress)" alt="BarPicture">
 
-        <hr />
+            <hr />
 
-        Work time:
-        @Html.DisplayFor(modelItem => item.BeginningOfTheWorkDay) -
-        @Html.DisplayFor(modelItem => item.EndOfTheWorkDay)<br />
+            Work time:
+            @Html.DisplayFor(modelItem => item.BeginningOfTheWorkDay) -
+            @Html.DisplayFor(modelItem => item.EndOfTheWorkDay)<br />
 
-        <span class="description">@Html.DisplayFor(modelItem => item.Description)<br /></span>
-        <a href="@Html.DisplayFor(modelItem => item.FacebookPageUrl)">Facebook page</a><br />
-        
-        <a asp-action="Update" asp-route-id="@item.Id">Update</a> |
-        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-    </div>
+            <span class="description">@Html.DisplayFor(modelItem => item.Description)<br /></span>
+            <a href="@Html.DisplayFor(modelItem => item.FacebookPageUrl)">Facebook page</a><br />
+
+            <a asp-action="Update" asp-route-id="@item.Id">Update</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+        </div>
     }
 </div>

@@ -1,4 +1,4 @@
-﻿@model BarZ.Data.Models.Destination
+﻿@model DestinationViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -25,9 +25,29 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
     </dl>
+<div>
+    <h4><a asp-controller="Bars" asp-action="ShowBarsInDestination" asp-route-id="@Model.Id">Bars List:</a></h4>
+
+    @if (this.Model.Bars.Any())
+    {
+        int i = 0;
+        string[] barNames = new string[100];
+        foreach (var bar in Model.Bars)
+        {
+            i++;
+            barNames[i] = bar.Name;
+        }
+        var asd = String.Join(", ", barNames.Where(s=> !string.IsNullOrEmpty(s)));
+
+        <ul>   
+            @asd
+        </ul>
+     }
+    
 </div>
+</div>
+
 <div>
     <a asp-action="Update" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-controller="Bars" asp-action="ShowBarsInDestination" asp-route-id="@Model.Id">Bars</a> |
     <a href="##" onClick="history.go(-1); return false;">Go back</a>
 </div>

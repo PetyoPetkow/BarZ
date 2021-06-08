@@ -75,9 +75,15 @@ body {
     width: 49%;
     border: dotted 1px gray;
     padding: 10px;
-    margin-top:10px;
-    vertical-align:top;
-    
+    margin-top: 10px;
+    vertical-align: top;
+}
+.halfScreenBox {
+    display: inline-block;
+    width: 49%;
+    padding: 10px;
+    margin-top: 10px;
+    vertical-align: middle;
 }
 @media (max-width: 700px) {
     .barIndexModel {
