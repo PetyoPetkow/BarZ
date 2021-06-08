@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using BarZ.Areas.Bar_reviews.Models.Bars.ViewModels;
+using BarZ.Data.Models;
 namespace BarZ.Data
 {
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -16,6 +17,8 @@ namespace BarZ.Data
         public DbSet<Image> Images { get; set; }
         public DbSet<Bar> Bars { get; set; }
         public DbSet<Destination> Destinations { get; set; }
-        public DbSet<BarZ.Areas.Bar_reviews.Models.Bars.ViewModels.BarViewModel> BarViewModel { get; set; }
+        public DbSet<Feature> Features { get; set; }
+        public DbSet<BarFeature> BarsFeatures { get; set; }
+
     }
 }

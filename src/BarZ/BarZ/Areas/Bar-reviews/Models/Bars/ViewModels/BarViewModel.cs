@@ -1,6 +1,7 @@
 ﻿namespace BarZ.Areas.Bar_reviews.Models.Bars.ViewModels
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
@@ -37,6 +38,8 @@
         public string FacebookPageUrl { get; set; }
 
         public virtual Destination Destination { get; set; }
+
+        public virtual ICollection<Feature> Features { get; set; }
     }
 }
 

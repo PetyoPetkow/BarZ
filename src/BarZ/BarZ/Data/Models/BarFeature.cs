@@ -11,7 +11,7 @@
         public virtual Bar Bar { get; set; }
 
         [Required]
-        public string FeatureId { get; set; }
+        public int FeatureId { get; set; }
         public virtual Feature Feature { get; set; }
     }
 }

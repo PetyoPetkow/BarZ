@@ -9,6 +9,8 @@
     using BarZ.Data;
     using BarZ.Data.Models;
     using BarZ.Services.Interfaces;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Storage;
 
     public class BarsService : IBarsService
     {
@@ -16,11 +18,13 @@
 
         private readonly ApplicationDbContext dbContext;
         public readonly IImageService ImageService;
+        public readonly IFeaturesService featuresService;
 
-        public BarsService(ApplicationDbContext dbContext, IImageService service)
+        public BarsService(ApplicationDbContext dbContext, IImageService service, IFeaturesService featuresService)
         {
             this.dbContext = dbContext;
             this.ImageService = service;
+            this.featuresService = featuresService;
         }
 
         public Image GetBarImage(Bar model)
@@ -60,6 +64,7 @@
                    Description = bar.Description,
                    FacebookPageUrl = bar.FacebookPageUrl,
                    Destination = bar.Destination,
+                   Features = bar.Features,
                })
                .Where(bar => bar.Id == id)
                .SingleOrDefault();
@@ -70,6 +75,7 @@
         public BarUpdateBindingModel GetByIdForUpdateMethod(int id)
         {
             BarUpdateBindingModel bar = this.dbContext.Bars
+                .Include(b => b.Features)
                 .Select(b => new BarUpdateBindingModel
                 {
                     Id = b.Id,
@@ -79,10 +85,13 @@
                     EndOfTheWorkDay = b.EndOfTheWorkDay,
                     Description = b.Description,
                     FacebookPageUrl = b.FacebookPageUrl,
-                    DestinationId = b.DestinationId
+                    DestinationId = b.DestinationId,
+                    Features = b.Features,
                 })
                 .Where(b => b.Id == id)
                 .SingleOrDefault();
+
+            PopulateSelectedFeaturesData(bar);
 
             return bar;
         }
@@ -134,15 +143,32 @@
             bar.Description = model.Description;
             bar.FacebookPageUrl = model.FacebookPageUrl;
             bar.DestinationId = model.DestinationId;
+            bar.Features = model.Features;
+
+           
 
             await this.dbContext.Bars.AddAsync(bar);
             await this.dbContext.SaveChangesAsync();
             this.dbContext.SaveChanges();
 
+            List<Feature> features = this.featuresService.GetAll().ToList();
+
+            foreach (var feature in features)
+            {
+                var barFeature = new BarFeature()
+                {
+                    BarId = bar.Id,
+                    FeatureId = feature.Id,
+                };
+                dbContext.BarsFeatures.Add(barFeature);
+                dbContext.SaveChanges();
+            }
+            
+
             return bar.Id;
         }
 
-        public async Task<bool> UpdateAsync(BarUpdateBindingModel model)
+        public async Task<bool> UpdateAsync(BarUpdateBindingModel model, string[] selectedFeatures)
         {
             Bar bar = GetBarById(model.Id);
             Image image = GetBarImage(bar);
@@ -189,6 +215,21 @@
             bar.FacebookPageUrl = model.FacebookPageUrl;
             bar.DestinationId = model.DestinationId;
 
+            //---------------------------------------
+
+            try
+            {
+                UpdateBarFeatures(selectedFeatures, bar);
+
+                dbContext.Entry(bar).State = EntityState.Modified;
+                dbContext.SaveChanges();
+
+            }
+            catch (RetryLimitExceededException)
+            {
+                System.Console.WriteLine("asdas");
+            }
+
             this.dbContext.Bars.Update(bar);
             await this.dbContext.SaveChangesAsync();
 
@@ -220,10 +261,56 @@
         private Bar GetBarById(int id)
         {
             Bar bar = this.dbContext.Bars
+                .Include(b=>b.Features)
                 .Where(l => l.Id == id)
                 .SingleOrDefault();
 
             return bar;
+        }
+
+        public List<BarFeatureViewModel> PopulateSelectedFeaturesData(BarUpdateBindingModel bar)
+        {
+            var allFeatures = dbContext.Features;
+            var barFeatures = new HashSet<int>(bar.Features.Select(f => f.Id));
+            var viewModel = new List<BarFeatureViewModel>();
+
+            foreach (var feature in allFeatures)
+            {
+                viewModel.Add(new BarFeatureViewModel
+                {
+                    FeatureId = feature.Id,
+                    FeatureName = feature.FeatureName,
+                    Selected = barFeatures.Contains(feature.Id),
+
+                });
+            }
+            return viewModel;
+        }
+
+        private void UpdateBarFeatures(string[] selectedFeatures, Bar barToUpdate)
+        {
+            if (selectedFeatures==null)
+            {
+                barToUpdate.Features = new List<Feature>();
+                return;
+            }
+
+            var selectedFeaturesHS = new HashSet<string>(selectedFeatures);
+            var barFeatures = new HashSet<int>(barToUpdate.Features.Select(f => f.Id));
+            foreach (var feature in dbContext.Features)
+            {
+                if (selectedFeaturesHS.Contains(feature.Id.ToString()))
+                {
+                    if (!barFeatures.Contains(feature.Id))
+                    {
+                        barToUpdate.Features.Add(feature);
+                    }
+                }
+                else
+                {
+                    barToUpdate.Features.Remove(feature);
+                }
+            }
         }
     }
 }

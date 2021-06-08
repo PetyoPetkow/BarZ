@@ -4,35 +4,22 @@ using BarZ.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BarZ.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210605110331_Features")]
+    partial class Features
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("BarFeature", b =>
-                {
-                    b.Property<int>("BarsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FeaturesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BarsId", "FeaturesId");
-
-                    b.HasIndex("FeaturesId");
-
-                    b.ToTable("BarFeature");
-                });
 
             modelBuilder.Entity("BarZ.Data.Models.Bar", b =>
                 {
@@ -82,16 +69,20 @@ namespace BarZ.Migrations
                     b.Property<int>("BarId")
                         .HasColumnType("int");
 
-                    b.Property<int>("FeatureId")
+                    b.Property<string>("FeatureId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("FeatureId1")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BarId");
 
-                    b.HasIndex("FeatureId");
+                    b.HasIndex("FeatureId1");
 
-                    b.ToTable("BarsFeatures");
+                    b.ToTable("BarFeature");
                 });
 
             modelBuilder.Entity("BarZ.Data.Models.Destination", b =>
@@ -125,9 +116,6 @@ namespace BarZ.Migrations
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
-
-                    b.Property<bool>("Selected")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
@@ -361,21 +349,6 @@ namespace BarZ.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BarFeature", b =>
-                {
-                    b.HasOne("BarZ.Data.Models.Bar", null)
-                        .WithMany()
-                        .HasForeignKey("BarsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BarZ.Data.Models.Feature", null)
-                        .WithMany()
-                        .HasForeignKey("FeaturesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("BarZ.Data.Models.Bar", b =>
                 {
                     b.HasOne("BarZ.Data.Models.Destination", "Destination")
@@ -390,16 +363,14 @@ namespace BarZ.Migrations
             modelBuilder.Entity("BarZ.Data.Models.BarFeature", b =>
                 {
                     b.HasOne("BarZ.Data.Models.Bar", "Bar")
-                        .WithMany()
+                        .WithMany("BarsFeatures")
                         .HasForeignKey("BarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BarZ.Data.Models.Feature", "Feature")
-                        .WithMany()
-                        .HasForeignKey("FeatureId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("FeaturesBars")
+                        .HasForeignKey("FeatureId1");
 
                     b.Navigation("Bar");
 
@@ -470,12 +441,19 @@ namespace BarZ.Migrations
 
             modelBuilder.Entity("BarZ.Data.Models.Bar", b =>
                 {
+                    b.Navigation("BarsFeatures");
+
                     b.Navigation("Image");
                 });
 
             modelBuilder.Entity("BarZ.Data.Models.Destination", b =>
                 {
                     b.Navigation("Bars");
+                });
+
+            modelBuilder.Entity("BarZ.Data.Models.Feature", b =>
+                {
+                    b.Navigation("FeaturesBars");
                 });
 #pragma warning restore 612, 618
         }

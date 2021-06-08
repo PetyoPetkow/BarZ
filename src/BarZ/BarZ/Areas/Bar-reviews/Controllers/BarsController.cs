@@ -17,14 +17,18 @@
     public class BarsController : BarReviewsController
     {
         private readonly IBarsService barsService;
+        private readonly IFeaturesService featuresService;
         private readonly IImageService imageService;
         private readonly IDestinationsService destinationsService;
+        private readonly IBarsFeaturesService BarsFeaturesService;
 
-        public BarsController(IBarsService barsService, IImageService imageService,IDestinationsService destinationsService)
+        public BarsController(IBarsService barsService, IImageService imageService,IDestinationsService destinationsService, IFeaturesService featuresService, IBarsFeaturesService barsFeaturesService)
         {
             this.barsService = barsService;
             this.imageService = imageService;
             this.destinationsService = destinationsService;
+            this.featuresService = featuresService;
+            this.BarsFeaturesService = barsFeaturesService;
         }
         
         public IActionResult ShowBarsInDestination(int id)
@@ -60,6 +64,7 @@
         public IActionResult Create()
         {
             IEnumerable<IdNameViewModel> destinations = this.destinationsService.GetAll();
+            List<Feature> features = this.featuresService.GetAll().ToList();
 
             bool areDestinationsEmpty = destinations.Count() == 0;
             if (areDestinationsEmpty)
@@ -68,6 +73,7 @@
             }
 
             ViewBag.Destinations = destinations;
+            ViewBag.Features = features;
 
             return this.View();
             
@@ -96,17 +102,21 @@
             {
                 return this.RedirectToAction("index");
             }
-            
+
+            var features = barsService.PopulateSelectedFeaturesData(bar);
+
+            ViewBag.Features = features;
             ViewBag.Destinations = destinations;
             return this.View(bar);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(BarUpdateBindingModel model)
+        public async Task<IActionResult> Update(BarUpdateBindingModel model, string[] selectedFeatures)
         {
+           
 
-            bool isUpdated = await this.barsService.UpdateAsync(model);
+            bool isUpdated = await this.barsService.UpdateAsync(model, selectedFeatures);
             if (isUpdated == false)
             {
                 return this.BadRequest();
@@ -120,6 +130,13 @@
             await this.barsService.DeleteAsync(id);
 
             return this.RedirectToAction("index");
+        }
+
+        public async Task<IActionResult> AddFeatureToABar(int currentBarId, int featureId)
+        {
+            await this.BarsFeaturesService.AddFeatureToABar(currentBarId, featureId);
+
+            return RedirectToAction("index");
         }
     }
 }

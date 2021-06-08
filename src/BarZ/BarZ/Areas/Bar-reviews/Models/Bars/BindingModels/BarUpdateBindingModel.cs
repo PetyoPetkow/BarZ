@@ -1,13 +1,20 @@
 ﻿namespace BarZ.Areas.Bar_reviews.Models.Bars.BindingModels
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
-
+    using BarZ.Data.Models;
     using Microsoft.AspNetCore.Http;
 
     public class BarUpdateBindingModel
     {
+
+        public BarUpdateBindingModel()
+        {
+            //FeatureIds = new int[100];
+        }
+
         [Required]
         public int Id { get; set; }
 
@@ -41,5 +48,7 @@
         [DisplayName("Destination")]
         [Required]
         public int DestinationId { get; set; }
+
+        public virtual ICollection<Feature> Features { get; set; }
     }
 }

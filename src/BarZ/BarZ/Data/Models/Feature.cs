@@ -6,7 +6,6 @@
     {
         public Feature()
         {
-            this.FeaturesBars = new HashSet<BarFeature>();
         }
         public int Id { get; set; }
 
@@ -15,7 +14,6 @@
         [MaxLength(64)]
         public string FeatureName { get; set; }
 
-        public virtual ICollection<BarFeature> FeaturesBars { get; set; }
-
+        public virtual ICollection<Bar> Bars { get; set; }
     }
 }

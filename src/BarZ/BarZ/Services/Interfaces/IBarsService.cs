@@ -16,6 +16,7 @@
         IEnumerable<BarViewModel> GetAllBarsInDestination(int id);
         Task<int> CreateAsync(BarCreateBindingModel bar);
         Task<bool> DeleteAsync(int id);
-        Task<bool> UpdateAsync(BarUpdateBindingModel model);
+        Task<bool> UpdateAsync(BarUpdateBindingModel model, string[] selectedFeatures);
+        List<BarFeatureViewModel> PopulateSelectedFeaturesData(BarUpdateBindingModel bar);
     }
 }

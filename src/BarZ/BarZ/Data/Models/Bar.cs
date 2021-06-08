@@ -8,7 +8,6 @@
     {
         public Bar()
         {
-            this.BarsFeatures = new HashSet<BarFeature>();
         }
 
         [Key]
@@ -38,8 +37,9 @@
 
         [Required]
         public int DestinationId { get; set; }
+
         public virtual Destination Destination {get; set; }
 
-        public virtual ICollection<BarFeature> BarsFeatures { get; set; }
+        public virtual ICollection<Feature> Features { get; set; }
     }
 }
