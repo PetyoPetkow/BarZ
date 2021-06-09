@@ -127,8 +127,8 @@
             {
                 return this.BadRequest();
             }
-
-            return this.RedirectToAction("index");
+          
+            return this.RedirectToAction("details",new { id=model.Id });
         }
 
         public async Task<IActionResult> Delete(int id)

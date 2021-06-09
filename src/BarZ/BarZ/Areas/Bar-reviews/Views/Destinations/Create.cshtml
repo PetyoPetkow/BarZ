@@ -4,9 +4,15 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<div class="container">
+    <div class="halfScreenBox">
+        <h1>Add destination</h1>
+    </div>
+    <div class="halfScreenBox">
+        <a class="col-md-4 btn btn-info btnsViewRight" asp-action="Index">Back to List</a>
+    </div>
+</div>
 
-<h4>Destination</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -23,14 +29,10 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="btn btn-primary w-100" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

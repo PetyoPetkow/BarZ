@@ -14,7 +14,15 @@
     }
 }
 
-<h1>@heading</h1>
+
+<div class="container">
+    <div class="halfScreenBox">
+        <h1>@heading</h1>
+    </div>
+    <div class="halfScreenBox">
+        <a class="col-md-4 btn btn-info btnsViewRight" asp-controller="Destinations" asp-action="Index">Back to destinations</a>
+    </div>
+</div>
 
 <div class="container">
     @foreach (var item in Model)
@@ -38,4 +46,3 @@
         </div>
     }
 </div>
-<a asp-controller="Destinations" asp-action="Index">Back to destinations</a>
