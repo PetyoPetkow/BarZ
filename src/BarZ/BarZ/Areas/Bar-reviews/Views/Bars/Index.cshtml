@@ -30,8 +30,8 @@
             <hr />
             <span class="description">@Html.DisplayFor(modelItem => item.Description)<br /></span>
             <a href="@Html.DisplayFor(modelItem => item.FacebookPageUrl)">Facebook page</a><br />
+
             <div class="btnsViewRight">
-                @*<a asp-action="Update" asp-route-id="@item.Id">Update</a> |*@
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </div>

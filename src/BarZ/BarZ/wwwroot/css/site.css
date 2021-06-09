@@ -89,6 +89,9 @@ body {
     .barIndexModel {
         width:99%;
     }
+    .halfScreenBox {
+        width:99%;
+    }
 }
 .description {
     word-wrap: break-word;
@@ -101,3 +104,14 @@ body {
 .btnsViewRight {
     float: right;
 }
+.spacer {
+    display: inline;
+    margin-left:100px;
+}
+.marginBottom100 {
+    margin-bottom:100px;
+}
+#destinations tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
