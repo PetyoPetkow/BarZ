@@ -20,8 +20,9 @@
             {
                 <li>
                     @destination.Name
-                    <a asp-controller="Destinations" asp-action="Details" asp-route-id="@destination.Id">Details</a> | 
-                    <a asp-controller="Bars" asp-action="ShowBarsInDestination" asp-route-id="@destination.Id">Bars</a>
+                    <a asp-controller="Destinations" asp-action="Details" asp-route-id="@destination.Id">Details</a> |
+                    <a asp-controller="Bars" asp-action="ShowBarsInDestination" asp-route-id="@destination.Id">Bars</a> |
+                    <a asp-controller="Destinations" asp-action="Delete" asp-route-id="@destination.Id">Delete</a> 
                 </li>
             }
         }

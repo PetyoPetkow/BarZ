@@ -8,6 +8,7 @@
     using BarZ.Data;
     using BarZ.Data.Models;
     using BarZ.Services.Interfaces;
+    using Microsoft.AspNetCore.Mvc;
 
     public class DestinationsService : IDestinationsService
     {
@@ -62,6 +63,14 @@
 
             return destination;
         }
+        public Destination GetByIdForDeleteMethod(int? id)
+        {
+            Destination destination = dbContext.Destinations
+                .Where(d => d.Id == id)
+                .SingleOrDefault();
+
+            return destination;
+        }
         public async Task<bool> UpdateAsync(DestinationUpdateBindingModel model)
         {
             Destination destination = GetDestinationById(model.Id);
@@ -77,6 +86,33 @@
 
             this.dbContext.Destinations.Update(destination);
             await this.dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<int> CreateAsync(DestinationCreateBindingModel model)
+        {
+            Destination destination = new Destination();
+
+            destination.Id = model.Id;
+            destination.Name = model.Name;
+            destination.Description = model.Description;
+            destination.Bars = model.Bars;
+
+            dbContext.Add(destination);
+            await dbContext.SaveChangesAsync();
+
+            return destination.Id;
+
+        }
+        public async Task<bool> DeleteAsync(int destinationId)
+        {
+            Destination destination = dbContext.Destinations
+                .Where(d => d.Id == destinationId)
+                .SingleOrDefault();
+
+            dbContext.Remove(destination);
+            await dbContext.SaveChangesAsync();
 
             return true;
         }
