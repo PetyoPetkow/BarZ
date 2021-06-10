@@ -114,7 +114,44 @@
                 .ToList();
             return bars;
         }
+        public BarDeleteBindingModel GetByIdForDeleteMethod(int? id)
+        {
+            BarDeleteBindingModel bar = dbContext.Bars
+                .Select(bar=> new BarDeleteBindingModel 
+                { 
+                    Id=bar.Id,
+                    Name=bar.Name,
+                    Description=bar.Description,
+                    DestinationName=bar.Destination.Name,
+                })
+                .Where(b => b.Id == id)
+                .SingleOrDefault();
 
+            return bar;
+        }
+
+        public IEnumerable<BarViewModel> ShowBarsByFeature(int id)
+        {
+            IEnumerable<BarViewModel> bars = this.dbContext.Bars
+
+                .Select(bar => new BarViewModel
+                {
+                    Id = bar.Id,
+                    Name = bar.Name,
+                    PictureAdress = bar.PictureAdress,
+                    BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
+                    EndOfTheWorkDay = bar.EndOfTheWorkDay,
+                    Description = bar.Description,
+                    FacebookPageUrl = bar.FacebookPageUrl,
+                    Destination = bar.Destination,
+                    Features = bar.Features.Where(f => f.Id == id).ToList(),
+                })
+                .Where(b=>b.Features.Count>0)
+                .ToList();
+            
+
+            return bars;
+        }
         public async Task<int> CreateAsync(BarCreateBindingModel model)
         {
             Bar bar = new Bar();

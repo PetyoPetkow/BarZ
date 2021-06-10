@@ -3,7 +3,7 @@ for details on configuring this project to bundle and minify static web assets. 
 a.navbar-brand {
     white-space: normal;
     text-align: center;
-    word-break: break-all;
+    /*word-break: break-all;*/
     color:white;
 }
 
@@ -12,21 +12,36 @@ a {
   color: #0366d6;
 }
 
+.navbar .navbar-toggler-icon {
+    background-image: url('https://mdbcdn.b-cdn.net/img/svg/hamburger7.svg?color=BFE100') !important;
+}
+
 .btn-primary {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+.nav-item{
+    color:white;
+}
+.nav-link {
+    color: white; 
+    font-size:20px;
+}
+
+.nav-link:hover {
+    color:silver !important;
+}
+
+    /*.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
   background-color: #1b6ec2;
   border-color: #1861ac; 
-}
-
-/* Sticky footer styles
+}*/
+    /* Sticky footer styles
 -------------------------------------------------- */
-html {
+    html {
   font-size: 14px;
 }
 @media (min-width: 768px) {

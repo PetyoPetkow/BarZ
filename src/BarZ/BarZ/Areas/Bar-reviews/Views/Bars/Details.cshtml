@@ -5,7 +5,14 @@
 
 }
 
-<h1>@Html.DisplayFor(model => model.Name)</h1>
+<div class="container">
+    <div class="halfScreenBox">
+        <h1>@Html.DisplayFor(model => model.Name)</h1>
+    </div>
+    <div class="halfScreenBox">
+        <a class="col-md-4 btn btn-info btnsViewRight" href="##" onClick="history.go(-1); return false;">Go back</a>
+    </div>
+</div>
 
 <div>
     <hr />
@@ -65,6 +72,5 @@
 </div>
 <div class="btnsViewRight marginBottom100">
     <a class="btn btn-info" asp-action="Update" asp-route-id="@Model.Id">Update</a> |
-    <a class="btn btn-info" asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
-    <a class="btn btn-info" asp-action="Index">Back to List</a>
+    <a class="btn btn-info" asp-action="Delete" asp-route-id="@Model.Id">Delete</a> 
 </div>

@@ -9,9 +9,7 @@
     using BarZ.Areas.Bar_reviews.Models.Bars.BindingModels;
     using BarZ.Areas.Bar_reviews.Models.Bars.ViewModels;
     using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
-    using BarZ.Data;
     using BarZ.Services.Interfaces;
-    using Microsoft.EntityFrameworkCore;
     using BarZ.Data.Models;
 
     public class BarsController : BarReviewsController
@@ -41,6 +39,12 @@
         {
             IEnumerable<BarViewModel> bars = this.barsService.GetAllBarsInDestination(id);      
                 
+            return this.View(bars);
+        }
+        public IActionResult ShowBarsByFeature(int id)
+        {
+            IEnumerable<BarViewModel> bars = this.barsService.ShowBarsByFeature(id);
+
             return this.View(bars);
         }
 
@@ -128,9 +132,28 @@
                 return this.BadRequest();
             }
           
-            return this.RedirectToAction("details",new { id=model.Id });
+            return this.RedirectToAction("index")/*("details",new { id=model.Id })*/;
+        }
+        
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var bar = barsService.GetByIdForDeleteMethod(id);
+
+            if (bar == null)
+            {
+                return NotFound();
+            }
+
+            return View(bar);
         }
 
+        [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             await this.barsService.DeleteAsync(id);

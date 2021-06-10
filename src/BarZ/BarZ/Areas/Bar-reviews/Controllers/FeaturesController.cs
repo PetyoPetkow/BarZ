@@ -20,13 +20,11 @@ namespace BarZ.Areas.Bar_reviews.Controllers
             _context = context;
         }
 
-        // GET: Bar-reviews/Features
         public async Task<IActionResult> Index()
         {
             return View(await _context.Features.ToListAsync());
         }
 
-        // GET: Bar-reviews/Features/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -44,15 +42,11 @@ namespace BarZ.Areas.Bar_reviews.Controllers
             return View(feature);
         }
 
-        // GET: Bar-reviews/Features/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Bar-reviews/Features/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FeatureName,Selected")] Feature feature)
@@ -66,8 +60,7 @@ namespace BarZ.Areas.Bar_reviews.Controllers
             return View(feature);
         }
 
-        // GET: Bar-reviews/Features/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Update(int? id)
         {
             if (id == null)
             {
@@ -82,12 +75,9 @@ namespace BarZ.Areas.Bar_reviews.Controllers
             return View(feature);
         }
 
-        // POST: Bar-reviews/Features/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FeatureName,Selected")] Feature feature)
+        public async Task<IActionResult> Update(int id, [Bind("Id,FeatureName,Selected")] Feature feature)
         {
             if (id != feature.Id)
             {
@@ -117,7 +107,6 @@ namespace BarZ.Areas.Bar_reviews.Controllers
             return View(feature);
         }
 
-        // GET: Bar-reviews/Features/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,7 +124,6 @@ namespace BarZ.Areas.Bar_reviews.Controllers
             return View(feature);
         }
 
-        // POST: Bar-reviews/Features/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -4,12 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Features List:</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-
+<div class="container">
+    <div class="halfScreenBox">
+        <h1>Features List:</h1>
+    </div>
+    <div class="halfScreenBox">
+        <a class="col-md-4 btn btn-info btnsViewRight" asp-action="Create">Add feature</a>
+    </div>
+</div>
 
 <table class="table">
     <tbody>
@@ -18,10 +20,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.FeatureName)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="ShowBarsInWhichTheFeatureIsPresent" asp-route-id="@item.Id">Show Bars In Which The Feature Is Present</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            <td style="margin:auto">
+                <a class="btn btn-info" asp-action="Update" asp-route-id="@item.Id">Update</a> |
+                <a class="btn btn-info" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                <a class="btn btn-info" asp-controller="Bars" asp-action="ShowBarsByFeature" asp-route-id="@item.Id">Bars</a>
             </td>
         </tr>
 }

@@ -14,6 +14,8 @@
         BarViewModel GetById(int? id);
         BarUpdateBindingModel GetByIdForUpdateMethod(int id);
         IEnumerable<BarViewModel> GetAllBarsInDestination(int id);
+        BarDeleteBindingModel GetByIdForDeleteMethod(int? id);
+        IEnumerable<BarViewModel> ShowBarsByFeature(int id);
         Task<int> CreateAsync(BarCreateBindingModel bar);
         Task<bool> DeleteAsync(int id);
         Task<bool> UpdateAsync(BarUpdateBindingModel model, string[] selectedFeatures);

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BarViewModel>
 
 @{
-    ViewData["Title"] = "Show";
+    ViewData["Title"] = "ShowBarsByFeature";
 }
 
 @{
@@ -9,18 +9,17 @@
 
     if (@Model.FirstOrDefault() != null)
     {
-        string destination = Model.FirstOrDefault().Destination.Name;
-        heading = ($"Bars in {destination}");
+        string feature = Model.FirstOrDefault().Features.Where(f => f.FeatureName != null).FirstOrDefault().FeatureName;
+        heading = ($"Bars which offer {feature}");
     }
 }
-
 
 <div class="container">
     <div class="halfScreenBox">
         <h1>@heading</h1>
     </div>
     <div class="halfScreenBox">
-        <a class="col-md-4 btn btn-info btnsViewRight" asp-controller="Destinations" asp-action="Index">Back to destinations</a>
+        <a class="col-md-4 btn btn-info btnsViewRight" href="##" onClick="history.go(-1); return false;">Go back</a>
     </div>
 </div>
 
