@@ -11,6 +11,7 @@
     using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
     using BarZ.Services.Interfaces;
     using BarZ.Data.Models;
+    using System;
 
     public class BarsController : BarReviewsController
     {
@@ -46,6 +47,21 @@
             IEnumerable<BarViewModel> bars = this.barsService.ShowBarsByFeature(id);
 
             return this.View(bars);
+        }
+        public IActionResult Search()
+        {
+            return this.View();
+        }
+        [HttpPost]
+        public IActionResult Search(string SearchPhrase)
+        {
+            IEnumerable<BarViewModel> bars = this.barsService.SearchForABar(SearchPhrase);
+            if (bars.Any())
+            {
+                return this.View("Index", bars);
+            }
+            return RedirectToAction("Search");
+            //TODO: ADD NOTIFICATION FOR BAR WAS NOT FOUND!
         }
 
         // GET: Bars

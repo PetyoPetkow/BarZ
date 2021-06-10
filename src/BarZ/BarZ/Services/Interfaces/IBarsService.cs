@@ -20,5 +20,6 @@
         Task<bool> DeleteAsync(int id);
         Task<bool> UpdateAsync(BarUpdateBindingModel model, string[] selectedFeatures);
         List<BarFeatureViewModel> PopulateSelectedFeaturesData(BarUpdateBindingModel bar);
+        IEnumerable<BarViewModel> SearchForABar(string name);
     }
 }

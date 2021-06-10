@@ -117,12 +117,12 @@
         public BarDeleteBindingModel GetByIdForDeleteMethod(int? id)
         {
             BarDeleteBindingModel bar = dbContext.Bars
-                .Select(bar=> new BarDeleteBindingModel 
-                { 
-                    Id=bar.Id,
-                    Name=bar.Name,
-                    Description=bar.Description,
-                    DestinationName=bar.Destination.Name,
+                .Select(bar => new BarDeleteBindingModel
+                {
+                    Id = bar.Id,
+                    Name = bar.Name,
+                    Description = bar.Description,
+                    DestinationName = bar.Destination.Name,
                 })
                 .Where(b => b.Id == id)
                 .SingleOrDefault();
@@ -146,16 +146,16 @@
                     Destination = bar.Destination,
                     Features = bar.Features.Where(f => f.Id == id).ToList(),
                 })
-                .Where(b=>b.Features.Count>0)
+                .Where(b => b.Features.Count > 0)
                 .ToList();
-            
+
 
             return bars;
         }
         public async Task<int> CreateAsync(BarCreateBindingModel model)
         {
             Bar bar = new Bar();
-            var fullPath=string.Empty;
+            var fullPath = string.Empty;
 
             bool doesTheModelHaveAPicture = model.image != null;
             if (doesTheModelHaveAPicture)
@@ -266,7 +266,7 @@
                 return false;
             }
 
-            if (image!=null)
+            if (image != null)
             {
                 ImageService.Delete(id);
             }
@@ -276,11 +276,11 @@
 
             return true;
         }
-   
+
         private Bar GetBarById(int id)
         {
             Bar bar = this.dbContext.Bars
-                .Include(b=>b.Features)
+                .Include(b => b.Features)
                 .Where(l => l.Id == id)
                 .SingleOrDefault();
 
@@ -308,7 +308,7 @@
 
         private void UpdateBarFeatures(string[] selectedFeatures, Bar barToUpdate)
         {
-            if (selectedFeatures==null)
+            if (selectedFeatures == null)
             {
                 barToUpdate.Features = new List<Feature>();
                 return;
@@ -330,6 +330,26 @@
                     barToUpdate.Features.Remove(feature);
                 }
             }
+        }
+
+        public IEnumerable<BarViewModel> SearchForABar(string SearchPhrase)
+        {
+            IEnumerable<BarViewModel> bars = dbContext.Bars
+                .Select(bar => new BarViewModel
+                {
+                    Id = bar.Id,
+                    Name = bar.Name,
+                    PictureAdress = bar.PictureAdress,
+                    BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
+                    EndOfTheWorkDay = bar.EndOfTheWorkDay,
+                    Description = bar.Description,
+                    FacebookPageUrl = bar.FacebookPageUrl,
+                    Destination = bar.Destination,
+                })
+                .Where(bar => bar.Name.ToLower().Contains(SearchPhrase.ToLower()))
+                .ToList();
+
+            return bars;
         }
     }
 }
