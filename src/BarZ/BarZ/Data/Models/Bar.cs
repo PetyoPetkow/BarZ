@@ -38,6 +38,9 @@
         [Required]
         public int DestinationId { get; set; }
 
+        [StringLength(10)]
+        public string PhoneNumber { get; set; }
+
         public virtual Destination Destination {get; set; }
 
         public virtual ICollection<Feature> Features { get; set; }

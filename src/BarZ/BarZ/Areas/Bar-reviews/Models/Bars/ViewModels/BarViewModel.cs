@@ -13,8 +13,6 @@
 
         public string Name { get; set; }
 
-        //public IFormFile Image {get;set;}
-
         public string PictureAdress { get; set; }
 
         public virtual Image Image { get; set; }
@@ -38,6 +36,9 @@
         public string FacebookPageUrl { get; set; }
 
         public virtual Destination Destination { get; set; }
+
+        [DisplayName("Phone number")]
+        public string PhoneNumber { get; set; }
 
         public virtual ICollection<Feature> Features { get; set; }
     }

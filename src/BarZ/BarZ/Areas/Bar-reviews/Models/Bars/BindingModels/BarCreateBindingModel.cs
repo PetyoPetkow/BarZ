@@ -38,6 +38,10 @@
         [Required]
         public int DestinationId { get; set; }
 
+        [StringLength(10)]
+        [DisplayName("Phone number")]
+        public string PhoneNumber { get; set; }
+
         public ICollection<Feature> Features { get; set; } 
     }
 }

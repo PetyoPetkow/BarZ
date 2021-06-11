@@ -126,6 +126,7 @@
                    FacebookPageUrl = bar.FacebookPageUrl,
                    Destination = bar.Destination,
                    Features = bar.Features,
+                   PhoneNumber = bar.PhoneNumber,
                })
                .Where(bar => bar.Id == id)
                .SingleOrDefault();
@@ -148,6 +149,7 @@
                     FacebookPageUrl = b.FacebookPageUrl,
                     DestinationId = b.DestinationId,
                     Features = b.Features,
+                    PhoneNumber = b.PhoneNumber,
                 })
                 .Where(b => b.Id == id)
                 .SingleOrDefault();
@@ -223,6 +225,7 @@
             bar.Description = model.Description;
             bar.FacebookPageUrl = model.FacebookPageUrl;
             bar.DestinationId = model.DestinationId;
+            bar.PhoneNumber = model.PhoneNumber;
 
             await this.dbContext.Bars.AddAsync(bar);
             await this.dbContext.SaveChangesAsync();
@@ -276,6 +279,7 @@
             bar.Description = model.Description;
             bar.FacebookPageUrl = model.FacebookPageUrl;
             bar.DestinationId = model.DestinationId;
+            bar.PhoneNumber = model.PhoneNumber;
 
             //---------------------------------------
 

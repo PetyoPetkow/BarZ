@@ -34,7 +34,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Description" class="control-label"></label>
-                <textarea asp-for="Description" class="form-control" rows="8"></Textarea>
+                <textarea asp-for="Description" class="form-control" rows="8"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -51,7 +51,12 @@
                     }
                 </select>
             </div>
-            <div>          
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            <div>
                 <table>
                     <tr>
                         @{
@@ -62,7 +67,7 @@
                             {
                                 if (cnt++ % 3 == 0)
                                 {
-                                    @:</tr><tr>
+                                @:</tr><tr>
                                 }
                                 @:<td class="col-1">
                                     <input type="checkbox"
@@ -70,17 +75,17 @@
                                            value="@feature.FeatureId"
                                            @(Html.Raw(feature.Selected ? "checked=\"checked\"" : "")) />
                                     @feature.FeatureName
-                                    @:</td>
+                                @:</td>
                             }
-                            @:</tr>
+                        @:</tr>
                         }
                     </table>
 
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
     </div>
 </div>
 
