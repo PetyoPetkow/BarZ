@@ -11,7 +11,6 @@
     using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
     using BarZ.Services.Interfaces;
     using BarZ.Data.Models;
-    using System;
 
     public class BarsController : BarReviewsController
     {
@@ -147,7 +146,7 @@
                 return this.BadRequest();
             }
           
-            return this.RedirectToAction("index")/*("details",new { id=model.Id })*/;
+            return this.RedirectToAction("index");
         }
         
         [HttpGet]

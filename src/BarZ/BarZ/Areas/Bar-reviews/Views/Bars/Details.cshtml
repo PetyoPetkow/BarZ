@@ -40,11 +40,46 @@
             @Html.DisplayNameFor(model => model.Destination)
         </dt>
         <dd class="col-sm-10">
-            <a asp-controller="Destinations" asp-action="Details" asp-route-id="@Model.Destination.Id" class="btn-outline-success">@Html.DisplayFor(model => model.Destination.Name)</a>
+            <a 
+               asp-controller="Destinations" 
+               asp-action="Details" 
+               asp-route-id="@Model.Destination.Id" 
+               class="btn-outline-success">
+               @Html.DisplayFor(model => model.Destination.Name)
+            </a>
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
         </dd><br /><br /><br />
 
-        <div>
-            <h4><a asp-controller="Bars" asp-action="ShowBarsInWhichTheFeatureIsPresent" asp-route-id="@Model.Id">Features:</a></h4>
+        <div class="halfScreenBox">
+            <h4 class="text-info">Features:</h4>
+
+            @if (this.Model.Features.Any())
+            {
+                int i = 0;
+                string[] features = new string[100];
+                foreach (var feature in Model.Features)
+                {
+                    i++;
+                    features[i] = feature.FeatureName;
+                }
+                var featuresInRow = String.Join(", ", features.Where(s => !string.IsNullOrEmpty(s)));
+
+                <ul>
+                    @featuresInRow
+                </ul>
+            }
+            else
+            {
+                <ul>No Information.</ul>
+            }
+        </div>
+        <div class="halfScreenBox">
+            <h4 class="text-info">Events:</h4>
 
             @if (this.Model.Features.Any())
             {

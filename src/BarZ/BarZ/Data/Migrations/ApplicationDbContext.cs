@@ -19,5 +19,6 @@ namespace BarZ.Data
         public DbSet<Destination> Destinations { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<BarFeature> BarsFeatures { get; set; }
+        public DbSet<Event> Events { get; set; }
     }
 }
