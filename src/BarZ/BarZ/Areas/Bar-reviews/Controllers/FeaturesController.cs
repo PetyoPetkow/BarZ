@@ -1,45 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using BarZ.Data;
-using BarZ.Data.Models;
-
-namespace BarZ.Areas.Bar_reviews.Controllers
+﻿namespace BarZ.Areas.Bar_reviews.Controllers
 {
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using BarZ.Services.Interfaces;
+    using BarZ.Areas.Bar_reviews.Models.Features.BindingModels;
+
     [Area("Bar-reviews")]
     public class FeaturesController : Controller
     {
-        private readonly ApplicationDbContext _context;
-
-        public FeaturesController(ApplicationDbContext context)
+        private readonly IFeaturesService featuresService;
+        public FeaturesController(IFeaturesService featuresService)
         {
-            _context = context;
+            this.featuresService = featuresService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Features.ToListAsync());
-        }
+            var features = featuresService.GetAll();
 
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var feature = await _context.Features
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (feature == null)
-            {
-                return NotFound();
-            }
-
-            return View(feature);
+            return View(features);
         }
 
         public IActionResult Create()
@@ -49,25 +30,26 @@ namespace BarZ.Areas.Bar_reviews.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FeatureName,Selected")] Feature feature)
+        public async Task<IActionResult> CreateAsync(FeatureCreateBindingModel feature)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(feature);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await featuresService.CreateAsync(feature);
+
+                return RedirectToAction("Index");
             }
             return View(feature);
         }
 
-        public async Task<IActionResult> Update(int? id)
+        public IActionResult Update(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var feature = await _context.Features.FindAsync(id);
+            var feature = featuresService.GetByIdForUpdateMethod(id);
+
             if (feature == null)
             {
                 return NotFound();
@@ -77,45 +59,25 @@ namespace BarZ.Areas.Bar_reviews.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int id, [Bind("Id,FeatureName,Selected")] Feature feature)
+        public async Task<IActionResult> UpdateAsync(FeatureUpdateBindingModel model)
         {
-            if (id != feature.Id)
+            var feature =await featuresService.UpdateAsync(model);
+            if (feature)
             {
-                return NotFound();
+                return RedirectToAction("Index");
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(feature);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FeatureExists(feature.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(feature);
+            return View(model);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public IActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var feature = await _context.Features
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var feature = featuresService.GetByIdForDeleteMethod(id);
+     
             if (feature == null)
             {
                 return NotFound();
@@ -126,17 +88,10 @@ namespace BarZ.Areas.Bar_reviews.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(FeatureDeleteBindingModel model)
         {
-            var feature = await _context.Features.FindAsync(id);
-            _context.Features.Remove(feature);
-            await _context.SaveChangesAsync();
+            var feature = await featuresService.DeleteAsync(model);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool FeatureExists(int id)
-        {
-            return _context.Features.Any(e => e.Id == id);
         }
     }
 }

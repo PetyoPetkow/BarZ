@@ -10,10 +10,10 @@
     {
         IEnumerable<IdNameViewModel> GetAll();
         DestinationUpdateBindingModel GetByIdForUpdateMethod(int id);
-        Task<bool> UpdateAsync(DestinationUpdateBindingModel model);
+        Destination GetByIdForDeleteMethod(int? id);
         DestinationViewModel GetByIdForDetailsMethod(int? id);
         Task<int> CreateAsync(DestinationCreateBindingModel model);
+        Task<bool> UpdateAsync(DestinationUpdateBindingModel model);
         Task<bool> DeleteAsync(int id);
-        Destination GetByIdForDeleteMethod(int? id);
     }
 }

@@ -3,12 +3,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using BarZ.Areas.Bar_reviews.Models.Destinations.BindingModels;
     using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
     using BarZ.Data;
     using BarZ.Data.Models;
     using BarZ.Services.Interfaces;
-    using Microsoft.AspNetCore.Mvc;
 
     public class DestinationsService : IDestinationsService
     {
@@ -21,7 +21,6 @@
 
         public IEnumerable<IdNameViewModel> GetAll()
         {
-
             IEnumerable<IdNameViewModel> destinations = this.dbContext.Destinations
                 .Select(destination => new IdNameViewModel
                 {
@@ -48,6 +47,15 @@
 
             return destination;
         }
+        public Destination GetByIdForDeleteMethod(int? id)
+        {
+            Destination destination = dbContext.Destinations
+                .Where(d => d.Id == id)
+                .SingleOrDefault();
+
+            return destination;
+        }
+
         public DestinationViewModel GetByIdForDetailsMethod(int? id)
         {
             DestinationViewModel destination = dbContext.Destinations
@@ -63,14 +71,23 @@
 
             return destination;
         }
-        public Destination GetByIdForDeleteMethod(int? id)
-        {
-            Destination destination = dbContext.Destinations
-                .Where(d => d.Id == id)
-                .SingleOrDefault();
 
-            return destination;
+        public async Task<int> CreateAsync(DestinationCreateBindingModel model)
+        {
+            Destination destination = new Destination
+            {
+                Id = model.Id,
+                Name = model.Name,
+                Description = model.Description,
+                Bars = model.Bars
+            };
+
+            dbContext.Add(destination);
+            await dbContext.SaveChangesAsync();
+
+            return destination.Id;
         }
+
         public async Task<bool> UpdateAsync(DestinationUpdateBindingModel model)
         {
             Destination destination = GetDestinationById(model.Id);
@@ -90,21 +107,6 @@
             return true;
         }
 
-        public async Task<int> CreateAsync(DestinationCreateBindingModel model)
-        {
-            Destination destination = new Destination();
-
-            destination.Id = model.Id;
-            destination.Name = model.Name;
-            destination.Description = model.Description;
-            destination.Bars = model.Bars;
-
-            dbContext.Add(destination);
-            await dbContext.SaveChangesAsync();
-
-            return destination.Id;
-
-        }
         public async Task<bool> DeleteAsync(int destinationId)
         {
             Destination destination = dbContext.Destinations
@@ -116,6 +118,7 @@
 
             return true;
         }
+
         private Destination GetDestinationById(int Id)
         {
             Destination destination = dbContext.Destinations
@@ -124,6 +127,5 @@
 
             return destination;
         }
-
     }
 }

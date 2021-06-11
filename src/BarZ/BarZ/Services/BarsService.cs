@@ -27,13 +27,6 @@
             this.featuresService = featuresService;
         }
 
-        public Image GetBarImage(Bar model)
-        {
-            Image image = this.dbContext.Images.Where(x => x.BarId == model.Id).FirstOrDefault();
-
-            return image;
-        }
-
         public IEnumerable<BarViewModel> GetAll()
         {
             IEnumerable<BarViewModel> bars = this.dbContext.Bars
@@ -50,6 +43,74 @@
                 })
                 .ToList();
             return bars;
+        }
+
+        public IEnumerable<BarViewModel> GetAllBarsInDestination(int id)
+        {
+            IEnumerable<BarViewModel> bars = this.dbContext.Bars
+                .Select(bar => new BarViewModel
+                {
+                    Id = bar.Id,
+                    Name = bar.Name,
+                    PictureAdress = bar.PictureAdress,
+                    BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
+                    EndOfTheWorkDay = bar.EndOfTheWorkDay,
+                    Description = bar.Description,
+                    FacebookPageUrl = bar.FacebookPageUrl,
+                    Destination = bar.Destination,
+                })
+                .Where(bar => bar.Destination.Id == id)
+                .ToList();
+            return bars;
+        }
+
+        public IEnumerable<BarViewModel> ShowBarsByFeature(int id)
+        {
+            IEnumerable<BarViewModel> bars = this.dbContext.Bars
+
+                .Select(bar => new BarViewModel
+                {
+                    Id = bar.Id,
+                    Name = bar.Name,
+                    PictureAdress = bar.PictureAdress,
+                    BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
+                    EndOfTheWorkDay = bar.EndOfTheWorkDay,
+                    Description = bar.Description,
+                    FacebookPageUrl = bar.FacebookPageUrl,
+                    Destination = bar.Destination,
+                    Features = bar.Features.Where(f => f.Id == id).ToList(),
+                })
+                .Where(b => b.Features.Count > 0)
+                .ToList();
+
+            return bars;
+        }
+
+        public IEnumerable<BarViewModel> SearchForABar(string SearchPhrase)
+        {
+            IEnumerable<BarViewModel> bars = dbContext.Bars
+                .Select(bar => new BarViewModel
+                {
+                    Id = bar.Id,
+                    Name = bar.Name,
+                    PictureAdress = bar.PictureAdress,
+                    BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
+                    EndOfTheWorkDay = bar.EndOfTheWorkDay,
+                    Description = bar.Description,
+                    FacebookPageUrl = bar.FacebookPageUrl,
+                    Destination = bar.Destination,
+                })
+                .Where(bar => bar.Name.ToLower().Contains(SearchPhrase.ToLower()))
+                .ToList();
+
+            return bars;
+        }
+
+        public Image GetBarImage(Bar model)
+        {
+            Image image = this.dbContext.Images.Where(x => x.BarId == model.Id).FirstOrDefault();
+
+            return image;
         }
 
         public BarViewModel GetById(int? id)
@@ -91,29 +152,14 @@
                 .Where(b => b.Id == id)
                 .SingleOrDefault();
 
-            PopulateSelectedFeaturesData(bar);
-
+            if (bar!=null)
+            {
+                PopulateSelectedFeaturesData(bar);
+            }
+            
             return bar;
         }
 
-        public IEnumerable<BarViewModel> GetAllBarsInDestination(int id)
-        {
-            IEnumerable<BarViewModel> bars = this.dbContext.Bars
-                .Select(bar => new BarViewModel
-                {
-                    Id = bar.Id,
-                    Name = bar.Name,
-                    PictureAdress = bar.PictureAdress,
-                    BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
-                    EndOfTheWorkDay = bar.EndOfTheWorkDay,
-                    Description = bar.Description,
-                    FacebookPageUrl = bar.FacebookPageUrl,
-                    Destination = bar.Destination,
-                })
-                .Where(bar => bar.Destination.Id == id)
-                .ToList();
-            return bars;
-        }
         public BarDeleteBindingModel GetByIdForDeleteMethod(int? id)
         {
             BarDeleteBindingModel bar = dbContext.Bars
@@ -130,28 +176,25 @@
             return bar;
         }
 
-        public IEnumerable<BarViewModel> ShowBarsByFeature(int id)
+        public List<BarFeatureViewModel> PopulateSelectedFeaturesData(BarUpdateBindingModel bar)
         {
-            IEnumerable<BarViewModel> bars = this.dbContext.Bars
+            var allFeatures = dbContext.Features;
+            var barFeatures = new HashSet<int>(bar.Features.Select(f => f.Id));
+            var viewModel = new List<BarFeatureViewModel>();
 
-                .Select(bar => new BarViewModel
+            foreach (var feature in allFeatures)
+            {
+                viewModel.Add(new BarFeatureViewModel
                 {
-                    Id = bar.Id,
-                    Name = bar.Name,
-                    PictureAdress = bar.PictureAdress,
-                    BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
-                    EndOfTheWorkDay = bar.EndOfTheWorkDay,
-                    Description = bar.Description,
-                    FacebookPageUrl = bar.FacebookPageUrl,
-                    Destination = bar.Destination,
-                    Features = bar.Features.Where(f => f.Id == id).ToList(),
-                })
-                .Where(b => b.Features.Count > 0)
-                .ToList();
+                    FeatureId = feature.Id,
+                    FeatureName = feature.FeatureName,
+                    Selected = barFeatures.Contains(feature.Id),
 
-
-            return bars;
+                });
+            }
+            return viewModel;
         }
+
         public async Task<int> CreateAsync(BarCreateBindingModel model)
         {
             Bar bar = new Bar();
@@ -246,7 +289,7 @@
             }
             catch (RetryLimitExceededException)
             {
-                System.Console.WriteLine("asdas");
+                System.Console.WriteLine("Error");
             }
 
             this.dbContext.Bars.Update(bar);
@@ -287,25 +330,6 @@
             return bar;
         }
 
-        public List<BarFeatureViewModel> PopulateSelectedFeaturesData(BarUpdateBindingModel bar)
-        {
-            var allFeatures = dbContext.Features;
-            var barFeatures = new HashSet<int>(bar.Features.Select(f => f.Id));
-            var viewModel = new List<BarFeatureViewModel>();
-
-            foreach (var feature in allFeatures)
-            {
-                viewModel.Add(new BarFeatureViewModel
-                {
-                    FeatureId = feature.Id,
-                    FeatureName = feature.FeatureName,
-                    Selected = barFeatures.Contains(feature.Id),
-
-                });
-            }
-            return viewModel;
-        }
-
         private void UpdateBarFeatures(string[] selectedFeatures, Bar barToUpdate)
         {
             if (selectedFeatures == null)
@@ -330,26 +354,6 @@
                     barToUpdate.Features.Remove(feature);
                 }
             }
-        }
-
-        public IEnumerable<BarViewModel> SearchForABar(string SearchPhrase)
-        {
-            IEnumerable<BarViewModel> bars = dbContext.Bars
-                .Select(bar => new BarViewModel
-                {
-                    Id = bar.Id,
-                    Name = bar.Name,
-                    PictureAdress = bar.PictureAdress,
-                    BeginningOfTheWorkDay = bar.BeginningOfTheWorkDay,
-                    EndOfTheWorkDay = bar.EndOfTheWorkDay,
-                    Description = bar.Description,
-                    FacebookPageUrl = bar.FacebookPageUrl,
-                    Destination = bar.Destination,
-                })
-                .Where(bar => bar.Name.ToLower().Contains(SearchPhrase.ToLower()))
-                .ToList();
-
-            return bars;
         }
     }
 }

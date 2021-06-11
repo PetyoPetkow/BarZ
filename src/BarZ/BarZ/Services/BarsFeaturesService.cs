@@ -1,13 +1,11 @@
-﻿using BarZ.Data;
-using BarZ.Data.Models;
-using BarZ.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BarZ.Services
+﻿namespace BarZ.Services
 {
+    using System.Threading.Tasks;
+
+    using BarZ.Data;
+    using BarZ.Data.Models;
+    using BarZ.Services.Interfaces;
+
     public class BarsFeaturesService : IBarsFeaturesService
     {
         private readonly ApplicationDbContext dbContext;

@@ -1,11 +1,12 @@
-﻿namespace BarZ.Data.Models
+﻿namespace BarZ.Areas.Bar_reviews.Models.Features.BindingModels
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    public class Feature
-    {
-        public int Id { get; set; }
 
+    using BarZ.Data.Models;
+
+    public class FeatureCreateBindingModel
+    {
         [Required]
         [MinLength(2)]
         [MaxLength(64)]

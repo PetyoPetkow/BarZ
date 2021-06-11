@@ -90,7 +90,7 @@
         public IActionResult Create()
         {
             IEnumerable<IdNameViewModel> destinations = this.destinationsService.GetAll();
-            List<Feature> features = this.featuresService.GetAll().ToList();
+            List<Feature> features = this.featuresService.GetAllFeaturesForViewBag().ToList();
 
             bool areDestinationsEmpty = destinations.Count() == 0;
             if (areDestinationsEmpty)
@@ -120,7 +120,7 @@
         {
             BarUpdateBindingModel bar = this.barsService.GetByIdForUpdateMethod(id);
             IEnumerable<IdNameViewModel> destinations = this.destinationsService.GetAll();
-
+      
             bool isBarsNull = bar == null;
             bool areDestinationsEmpty = destinations.Count() == 0;
 
@@ -128,20 +128,19 @@
             {
                 return this.RedirectToAction("index");
             }
-
+        
             var features = barsService.PopulateSelectedFeaturesData(bar);
 
             ViewBag.Features = features;
             ViewBag.Destinations = destinations;
             return this.View(bar);
+        
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Update(BarUpdateBindingModel model, string[] selectedFeatures)
         {
-           
-
             bool isUpdated = await this.barsService.UpdateAsync(model, selectedFeatures);
             if (isUpdated == false)
             {

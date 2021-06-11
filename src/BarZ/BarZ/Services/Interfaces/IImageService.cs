@@ -8,6 +8,5 @@
     {
         Task<string[]> Upload(IFormFile file);
         void Delete(int id);
-
     }
 }
