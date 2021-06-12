@@ -41,6 +41,8 @@
         public string PhoneNumber { get; set; }
 
         public virtual ICollection<Feature> Features { get; set; }
+
+        public virtual ICollection<Event> Events { get; set; }
     }
 }
 

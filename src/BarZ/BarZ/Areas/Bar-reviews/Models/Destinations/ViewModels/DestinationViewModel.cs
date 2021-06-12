@@ -1,7 +1,9 @@
 ﻿namespace BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels
 {
-    using BarZ.Data.Models;
     using System.Collections.Generic;
+
+    using BarZ.Data.Models;
+    
     public class DestinationViewModel
     {
         public int Id { get; set; }

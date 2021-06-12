@@ -4,24 +4,11 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
-
+<br />
 <h3>Are you sure you want to delete @Model.Name?</h3>
 <div>
     <hr />
     <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DestinationName)
         </dt>
@@ -29,10 +16,23 @@
             @Html.DisplayFor(model => model.DestinationName)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
+
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+
+    <form class="halfScreenBox" asp-action="Delete">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Confirm" class="btn btn-danger w-50" />
     </form>
+
+    <form class="halfScreenBox">
+        <a asp-action="Index" class="btn btn-info w-50">Cancel</a>
+    </form>
+
 </div>

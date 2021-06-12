@@ -16,12 +16,14 @@
         [Required]
         public DateTime DateAndTime { get; set; }
        
-        public double? Fee { get; set; }
+        public decimal? Fee { get; set; }
 
         [MinLength(2)]
         [MaxLength(512)]
         public string Info { get; set; }
 
-        public Bar Bar { get; set; }
+        public int BarId { get; set; }
+
+        public virtual Bar Bar { get; set; }
     }
 }

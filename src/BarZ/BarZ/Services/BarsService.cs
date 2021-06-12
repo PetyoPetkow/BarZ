@@ -127,6 +127,7 @@
                    Destination = bar.Destination,
                    Features = bar.Features,
                    PhoneNumber = bar.PhoneNumber,
+                   Events = bar.Events,
                })
                .Where(bar => bar.Id == id)
                .SingleOrDefault();
@@ -229,7 +230,6 @@
 
             await this.dbContext.Bars.AddAsync(bar);
             await this.dbContext.SaveChangesAsync();
-            this.dbContext.SaveChanges();
 
             return bar.Id;
         }

@@ -62,6 +62,7 @@
                     EventName = _event.EventName,
                     DateAndTime = _event.DateAndTime,
                     Info = _event.Info,
+                    Bar = _event.Bar,
                 }).Where(e => e.Id == id)
                 .FirstOrDefault();
             return _event;
@@ -92,10 +93,11 @@
                 DateAndTime = model.DateAndTime,
                 Fee = model.Fee,
                 Info = model.Info,
-                Bar = model.Bar,
+                BarId = model.BarId,
+                
             };
             
-            dbContext.Events.Add(_event);
+            await dbContext.Events.AddAsync(_event);
             await dbContext.SaveChangesAsync();
 
             return _event.Id;

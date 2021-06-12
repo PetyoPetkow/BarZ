@@ -1,13 +1,8 @@
-﻿using BarZ.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BarZ.Areas.Bar_reviews.Models.Bars.BindingModels
+﻿namespace BarZ.Areas.Bar_reviews.Models.Bars.BindingModels
 {
+    using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+
     public class BarDeleteBindingModel
     {
         [Required]
@@ -15,9 +10,10 @@ namespace BarZ.Areas.Bar_reviews.Models.Bars.BindingModels
 
         public string Name { get; set; }
 
+        [DisplayName("Info:")]
         public string Description { get; set; }
 
-        [DisplayName("Destination")]
+        [DisplayName("Destination:")]
         public string DestinationName { get; set; }
 
     }

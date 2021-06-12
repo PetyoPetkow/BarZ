@@ -1,11 +1,9 @@
-﻿using BarZ.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace BarZ.Areas.Bar_reviews.Models.Features.ViewModels
+﻿namespace BarZ.Areas.Bar_reviews.Models.Features.ViewModels
 {
+    using System.Collections.Generic;
+
+    using BarZ.Data.Models;
+
     public class FeatureViewModel
     {
         public int Id { get; set; }

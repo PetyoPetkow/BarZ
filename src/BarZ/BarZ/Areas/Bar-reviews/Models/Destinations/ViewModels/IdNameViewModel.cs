@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels
+﻿namespace BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels
 {
     public class IdNameViewModel
     {

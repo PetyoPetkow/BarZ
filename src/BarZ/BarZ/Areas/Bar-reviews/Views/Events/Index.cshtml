@@ -4,55 +4,42 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="container">
+    <div class="halfScreenBox">
+        <h1>Future Events:</h1>
+    </div>
+    <div class="halfScreenBox">
+        <a class="col-md-4 btn btn-info btnsViewRight" asp-action="Create">Add Event</a>
+    </div>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.EventName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateAndTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Fee)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Info)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EventName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateAndTime)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fee)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Info)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    @if (this.User.IsInRole(RolesConstants.AdminRoleName))
-                    {
-                        <span>|</span> <a asp-action="Update" asp-route-id="@item.Id">Update</a> 
-                        <span>|</span> <a asp-action="Delete" asp-route-id="@item.Id">Delete </a>
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@foreach (var item in Model)
+{
+    <div style="border:1px solid lightgray; margin:30px; padding:40px">
+        <h1 style="margin-top:-20px">@Html.DisplayFor(modelItem => item.EventName)</h1>
+        <div class="font-weight-light">@Html.DisplayFor(modelItem => item.DateAndTime)</div>
+        <div class="font-weight-light"><span>At</span> @Html.DisplayFor(modelItem => item.Bar.Name)</div>
+        <div style="padding-top:20px; padding-bottom:20px">@Html.DisplayFor(modelItem => item.Info)</div>
+        <div>
+            @if (item.Fee != null)
+            {
+                <span style="padding:0px; display:inline">
+                    @Html.DisplayNameFor(modelItem => item.Fee) <span>:</span>
+                    @Html.DisplayFor(modelItem => item.FeeInDollars)
+                </span>
+            }
+            else
+            {
+                <span style="padding:20px">Admission free</span>
+            }
+            <span display:inline" class="btnsViewRight">
+                @if (this.User.IsInRole(RolesConstants.AdminRoleName))
+                {
+                    <a asp-action="Update" asp-route-id="@item.Id">Update</a>
+                    <span>|</span> 
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete </a>
+                }
+            </span>
+        </div>
+    </div>
+}

@@ -4,9 +4,15 @@
     ViewData["Title"] = "Update";
 }
 
-<h1>Edit</h1>
+<div class="container">
+    <div class="halfScreenBox">
+        <h1>Update @Model.Name</h1>
+    </div>
+    <div class="halfScreenBox">
+        <a class="col-md-4 btn btn-info btnsViewRight" href="##" onClick="history.go(-1); return false;">Go back</a>
+    </div>
+</div>
 
-<h4>Destination</h4>
 <hr />
 <div class="row">
     <div class="col-md-8">
@@ -24,15 +30,11 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div></br>
 
-            <div class="form-group col-5">
-                <input type="submit" value="Save" class="btn btn-primary  w-50" />
+            <div class="form-group col-8">
+                <input type="submit" value="Save" class="btn btn-primary  w-100" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index" class="col-5">Back to List</a>
 </div>
 
 @section Scripts {

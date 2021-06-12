@@ -8,15 +8,20 @@
     using BarZ.Areas.Bar_reviews.Models.Events.BindingModels;
     using BarZ.Constants;
     using Microsoft.AspNetCore.Authorization;
+    using System.Collections.Generic;
+    using System.Linq;
+    using BarZ.Areas.Bar_reviews.Models.Bars.ViewModels;
 
     [Area("Bar-reviews")]
     public class EventsController : Controller
     {
         private readonly IEventsService eventsService;
+        private readonly IBarsService barsService;
 
-        public EventsController(IEventsService eventsService)
+        public EventsController(IEventsService eventsService, IBarsService barsService)
         {
             this.eventsService = eventsService;
+            this.barsService = barsService;
         }
 
         public IActionResult Index()
@@ -33,7 +38,7 @@
             }
 
             var _event = eventsService.GetById(id);
-                
+
             if (_event == null)
             {
                 return NotFound();
@@ -45,6 +50,15 @@
         [Authorize]
         public IActionResult Create()
         {
+            IEnumerable<BarViewModel> bars = this.barsService.GetAll();
+
+            bool areBarsEmpty = bars.Count() == 0;
+            if (areBarsEmpty)
+            {
+                return this.RedirectToAction("index");
+            }
+
+            ViewBag.Bars = bars;
             return View();
         }
 

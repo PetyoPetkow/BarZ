@@ -83,25 +83,24 @@
         <div class="halfScreenBox">
             <h4 class="text-info">Events:</h4>
 
-            @if (this.Model.Features.Any())
+            @if (this.Model.Events.Any())
             {
-                int i = 0;
-                string[] features = new string[100];
-                foreach (var feature in Model.Features)
+                @foreach (var item in Model.Events)
                 {
-                    i++;
-                    features[i] = feature.FeatureName;
-                }
-                var featuresInRow = String.Join(", ", features.Where(s => !string.IsNullOrEmpty(s)));
+                    <div style="border:1px solid lightgray; margin:30px; padding:40px">
+                        <a asp-controller="Events" asp-action="Details" asp-route-id="@item.Id">
+                            <h1 style="margin-top:-20px">@Html.DisplayFor(modelItem => item.EventName)</h1>
+                        </a>
 
-                <ul>
-                    @featuresInRow
-                </ul>
+                        <div class="font-weight-light">@Html.DisplayFor(modelItem => item.DateAndTime)</div>
+                    </div>
+                }
             }
             else
             {
-                <ul>No Information.</ul>
+                <span>No Information</span>
             }
+
         </div>
 
     </dl>
