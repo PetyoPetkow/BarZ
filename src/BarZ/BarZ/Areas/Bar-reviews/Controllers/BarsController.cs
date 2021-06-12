@@ -20,21 +20,18 @@
         private readonly IFeaturesService featuresService;
         private readonly IImageService imageService;
         private readonly IDestinationsService destinationsService;
-        //private readonly IBarsFeaturesService BarsFeaturesService;
 
         public BarsController(
             IBarsService barsService, 
             IImageService imageService,
             IDestinationsService destinationsService, 
             IFeaturesService featuresService 
-            //IBarsFeaturesService barsFeaturesService
             )
         {
             this.barsService = barsService;
             this.imageService = imageService;
             this.destinationsService = destinationsService;
             this.featuresService = featuresService;
-            //this.BarsFeaturesService = barsFeaturesService;
         }
         
         public IActionResult ShowBarsInDestination(int id)
@@ -56,13 +53,18 @@
         [HttpPost]
         public IActionResult Search(string SearchPhrase)
         {
-            IEnumerable<BarViewModel> bars = this.barsService.SearchForABar(SearchPhrase);
-            if (bars.Any())
+            if (this.barsService.SearchForABar(SearchPhrase)!=null)
             {
-                return this.View("Index", bars);
+                IEnumerable<BarViewModel> bars = this.barsService.SearchForABar(SearchPhrase);
+                if (bars.Any())
+                {
+                    return this.View("Index", bars);
+                }
             }
+
             return RedirectToAction("Search");
             //TODO: ADD NOTIFICATION FOR BAR WAS NOT FOUND!
+            //UPDATE: NOT ENOUGH TIME TO DO THAT...
         }
 
         // GET: Bars

@@ -88,7 +88,9 @@
 
         public IEnumerable<BarViewModel> SearchForABar(string SearchPhrase)
         {
-            IEnumerable<BarViewModel> bars = dbContext.Bars
+            if (SearchPhrase!=null)
+            {
+                IEnumerable<BarViewModel> bars = dbContext.Bars
                 .Select(bar => new BarViewModel
                 {
                     Id = bar.Id,
@@ -100,10 +102,14 @@
                     FacebookPageUrl = bar.FacebookPageUrl,
                     Destination = bar.Destination,
                 })
-                .Where(bar => bar.Name.ToLower().Contains(SearchPhrase.ToLower()))
+                .Where(bar => bar.Name
+                .ToLower()
+                .Contains(SearchPhrase.ToLower()))
                 .ToList();
 
-            return bars;
+                return bars;
+            }
+            return null;
         }
 
         public Image GetBarImage(Bar model)
