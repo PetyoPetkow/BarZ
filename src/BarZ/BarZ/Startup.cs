@@ -78,7 +78,6 @@ namespace BarZ
             services.AddScoped<IImageService, ImageService>();
             services.AddScoped<IDestinationsService, DestinationsService>();
             services.AddScoped<IFeaturesService, FeaturesService>();
-            //services.AddScoped<IBarsFeaturesService, BarsFeaturesService>();
             services.AddScoped<IEventsService, EventsService>();
         }
     }

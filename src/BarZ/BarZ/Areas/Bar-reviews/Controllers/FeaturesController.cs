@@ -10,7 +10,7 @@
     using BarZ.Constants;
 
     [Area("Bar-reviews")]
-    public class FeaturesController : Controller
+    public class FeaturesController : BarReviewsController
     {
         private readonly IFeaturesService featuresService;
         public FeaturesController(IFeaturesService featuresService)

@@ -182,12 +182,5 @@
 
             return this.RedirectToAction("index");
         }
-
-        //public async Task<IActionResult> AddFeatureToABar(int currentBarId, int featureId)
-        //{
-        //    await this.BarsFeaturesService.AddFeatureToABar(currentBarId, featureId);
-
-        //    return RedirectToAction("index");
-        //}
     }
 }

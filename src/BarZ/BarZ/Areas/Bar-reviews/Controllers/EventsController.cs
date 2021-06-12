@@ -13,7 +13,7 @@
     using BarZ.Areas.Bar_reviews.Models.Bars.ViewModels;
 
     [Area("Bar-reviews")]
-    public class EventsController : Controller
+    public class EventsController : BarReviewsController
     {
         private readonly IEventsService eventsService;
         private readonly IBarsService barsService;
