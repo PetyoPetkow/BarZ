@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-
-namespace BarZ.Areas.Identity.Pages.Account
+﻿namespace BarZ.Areas.Identity.Pages.Account
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Logging;
+
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
@@ -21,7 +16,7 @@ namespace BarZ.Areas.Identity.Pages.Account
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, 
+        public LoginModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager)
         {
@@ -32,8 +27,6 @@ namespace BarZ.Areas.Identity.Pages.Account
 
         [BindProperty]
         public InputModel Input { get; set; }
-
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -66,8 +59,6 @@ namespace BarZ.Areas.Identity.Pages.Account
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             ReturnUrl = returnUrl;
         }
 
@@ -75,8 +66,6 @@ namespace BarZ.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
