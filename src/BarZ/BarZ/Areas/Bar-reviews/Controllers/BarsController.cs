@@ -88,6 +88,7 @@
         }
 
         // GET: Bars/Create
+        [Authorize]
         public IActionResult Create()
         {
             IEnumerable<IdNameViewModel> destinations = this.destinationsService.GetAll();
@@ -109,6 +110,7 @@
         // POST: Bars/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create(BarCreateBindingModel bar)
         {
              await this.barsService.CreateAsync(bar);

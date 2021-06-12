@@ -8,7 +8,10 @@
         <h1 display="inline" class="col-md-4">Reviews</h1>
     </div>
     <div class="halfScreenBox">
-        <a class="col-md-4 btn btn-info btnsViewRight" asp-action="Create">Create a review</a>
+        @if (this.User.Identity.IsAuthenticated)
+        {
+            <a class="col-md-4 btn btn-info btnsViewRight" asp-action="Create">Create a review</a>
+        }
     </div>
 </div>
 

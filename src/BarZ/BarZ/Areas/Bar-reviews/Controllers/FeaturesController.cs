@@ -25,6 +25,7 @@
             return View(features);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -32,6 +33,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> CreateAsync(FeatureCreateBindingModel feature)
         {
             if (ModelState.IsValid)

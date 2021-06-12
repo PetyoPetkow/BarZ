@@ -42,6 +42,7 @@
             return View(_event);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -49,6 +50,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create(EventCreateBindingModel model)
         {
             if (ModelState.IsValid)

@@ -46,6 +46,7 @@
             return View(destination);
         }
 
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +54,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Create(DestinationCreateBindingModel model)
         {
            
