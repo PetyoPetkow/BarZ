@@ -6,6 +6,8 @@
 
     using BarZ.Services.Interfaces;
     using BarZ.Areas.Bar_reviews.Models.Events.BindingModels;
+    using BarZ.Constants;
+    using Microsoft.AspNetCore.Authorization;
 
     [Area("Bar-reviews")]
     public class EventsController : Controller
@@ -57,6 +59,7 @@
             return View(model);
         }
 
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public IActionResult Update(int? id)
         {
             if (id == null)
@@ -75,6 +78,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public async Task<IActionResult> UpdateAsync(EventUpdateBindingModel model)
         {
             bool isUpdated = await eventsService.UpdateAsync(model);
@@ -86,6 +90,7 @@
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -105,6 +110,7 @@
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             await eventsService.DeleteAsync(id);

@@ -11,6 +11,8 @@
     using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
     using BarZ.Services.Interfaces;
     using BarZ.Data.Models;
+    using BarZ.Constants;
+    using Microsoft.AspNetCore.Authorization;
 
     public class BarsController : BarReviewsController
     {
@@ -18,21 +20,21 @@
         private readonly IFeaturesService featuresService;
         private readonly IImageService imageService;
         private readonly IDestinationsService destinationsService;
-        private readonly IBarsFeaturesService BarsFeaturesService;
+        //private readonly IBarsFeaturesService BarsFeaturesService;
 
         public BarsController(
             IBarsService barsService, 
             IImageService imageService,
             IDestinationsService destinationsService, 
-            IFeaturesService featuresService, 
-            IBarsFeaturesService barsFeaturesService
+            IFeaturesService featuresService 
+            //IBarsFeaturesService barsFeaturesService
             )
         {
             this.barsService = barsService;
             this.imageService = imageService;
             this.destinationsService = destinationsService;
             this.featuresService = featuresService;
-            this.BarsFeaturesService = barsFeaturesService;
+            //this.BarsFeaturesService = barsFeaturesService;
         }
         
         public IActionResult ShowBarsInDestination(int id)
@@ -115,6 +117,7 @@
         }
 
         //GET: Bars/Update/5
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public IActionResult Update(int id)
         {
             BarUpdateBindingModel bar = this.barsService.GetByIdForUpdateMethod(id);
@@ -138,6 +141,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public async Task<IActionResult> Update(BarUpdateBindingModel model, string[] selectedFeatures)
         {
             bool isUpdated = await this.barsService.UpdateAsync(model, selectedFeatures);
@@ -150,6 +154,7 @@
         }
         
         [HttpGet]
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -168,6 +173,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public async Task<IActionResult> Delete(int id)
         {
             await this.barsService.DeleteAsync(id);
@@ -175,11 +181,11 @@
             return this.RedirectToAction("index");
         }
 
-        public async Task<IActionResult> AddFeatureToABar(int currentBarId, int featureId)
-        {
-            await this.BarsFeaturesService.AddFeatureToABar(currentBarId, featureId);
+        //public async Task<IActionResult> AddFeatureToABar(int currentBarId, int featureId)
+        //{
+        //    await this.BarsFeaturesService.AddFeatureToABar(currentBarId, featureId);
 
-            return RedirectToAction("index");
-        }
+        //    return RedirectToAction("index");
+        //}
     }
 }

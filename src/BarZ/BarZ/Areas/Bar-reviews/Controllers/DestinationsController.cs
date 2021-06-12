@@ -8,6 +8,8 @@
     using BarZ.Areas.Bar_reviews.Models.Destinations.ViewModels;
     using BarZ.Services.Interfaces;
     using BarZ.Areas.Bar_reviews.Models.Destinations.BindingModels;
+    using BarZ.Constants;
+    using Microsoft.AspNetCore.Authorization;
 
     public class DestinationsController : BarReviewsController
     {
@@ -58,7 +60,8 @@
            
             return RedirectToAction("index");
         }
-        
+
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public IActionResult Update(int id)
         {
             DestinationUpdateBindingModel destination = this.destinationsService.GetByIdForUpdateMethod(id);
@@ -74,6 +77,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public async Task<IActionResult> Update(DestinationUpdateBindingModel model)
         {
             bool isUpdated = await this.destinationsService.UpdateAsync(model);
@@ -85,6 +89,7 @@
             return this.RedirectToAction("index");
         }
 
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -104,6 +109,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             await destinationsService.DeleteAsync(id);

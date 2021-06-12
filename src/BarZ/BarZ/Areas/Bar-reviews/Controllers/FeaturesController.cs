@@ -6,6 +6,8 @@
 
     using BarZ.Services.Interfaces;
     using BarZ.Areas.Bar_reviews.Models.Features.BindingModels;
+    using Microsoft.AspNetCore.Authorization;
+    using BarZ.Constants;
 
     [Area("Bar-reviews")]
     public class FeaturesController : Controller
@@ -41,6 +43,7 @@
             return View(feature);
         }
 
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public IActionResult Update(int? id)
         {
             if (id == null)
@@ -59,6 +62,7 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public async Task<IActionResult> UpdateAsync(FeatureUpdateBindingModel model)
         {
             var feature =await featuresService.UpdateAsync(model);
@@ -69,6 +73,7 @@
             return View(model);
         }
 
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public IActionResult Delete(int? id)
         {
             if (id == null)
@@ -88,6 +93,7 @@
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = RolesConstants.AdminRoleName)]
         public async Task<IActionResult> DeleteConfirmed(FeatureDeleteBindingModel model)
         {
             var feature = await featuresService.DeleteAsync(model);
