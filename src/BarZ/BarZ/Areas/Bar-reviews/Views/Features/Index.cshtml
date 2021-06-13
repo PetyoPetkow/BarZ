@@ -28,7 +28,7 @@
                     @if (this.User.IsInRole(RolesConstants.AdminRoleName))
                     {
                         <a class="btn btn-info" asp-action="Update" asp-route-id="@item.Id">Update</a> <span>|</span>
-                        <a class="btn btn-info" asp-action="Delete" asp-route-id="@item.Id">Delete</a> <span>|</span>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a> <span>|</span>
                     }
                     <a class="btn btn-info" asp-controller="Bars" asp-action="ShowBarsByFeature" asp-route-id="@item.Id">Bars</a>
                 </td>
