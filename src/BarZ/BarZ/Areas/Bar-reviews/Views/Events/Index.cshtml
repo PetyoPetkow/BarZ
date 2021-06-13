@@ -10,7 +10,10 @@
     </div>
     <div class="halfScreenBox">
         <a class="col-md-4 btn btn-info" asp-action="PastEvents">Past Events</a>
-        <a class="col-md-4 btn btn-info btnsViewRight" asp-action="Create">Add Event</a>
+        @if (this.User.Identity.IsAuthenticated)
+        {
+            <a class="col-md-4 btn btn-info btnsViewRight" asp-action="Create">Add Event</a>
+        }
     </div>
 </div>
 
