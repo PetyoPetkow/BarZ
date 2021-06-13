@@ -13,33 +13,4 @@
     </div>
 </div>
 
-@foreach (var item in Model)
-{
-    <div style="border:1px solid lightgray; margin:30px; padding:40px">
-        <h1 style="margin-top:-20px">@Html.DisplayFor(modelItem => item.EventName)</h1>
-        <div class="font-weight-light">@Html.DisplayFor(modelItem => item.DateAndTime)</div>
-        <div class="font-weight-light"><span>At</span> @Html.DisplayFor(modelItem => item.Bar.Name)</div>
-        <div style="padding-top:20px; padding-bottom:20px">@Html.DisplayFor(modelItem => item.Info)</div>
-        <div>
-            @if (item.Fee != null)
-            {
-                <span style="padding:0px; display:inline">
-                    @Html.DisplayNameFor(modelItem => item.Fee) <span>:</span>
-                    @Html.DisplayFor(modelItem => item.FeeInDollars)
-                </span>
-            }
-            else
-            {
-                <span style="padding:20px">Admission free</span>
-            }
-            <span display:inline" class="btnsViewRight">
-                @if (this.User.IsInRole(RolesConstants.AdminRoleName))
-                {
-                    <a asp-action="Update" asp-route-id="@item.Id">Update</a>
-                    <span>|</span>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete </a>
-                }
-            </span>
-        </div>
-    </div>
-}
+@Html.Partial("EventsPartialView", Model)
