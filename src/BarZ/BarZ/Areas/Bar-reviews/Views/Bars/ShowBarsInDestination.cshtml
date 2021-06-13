@@ -27,23 +27,6 @@
 <div class="container">
     @foreach (var item in Model)
     {
-        <div class="barIndexModel">
-            <h2>@Html.DisplayFor(modelItem => item.Name)</h2>
-            <p class="font-weight-light">
-                (@Html.DisplayFor(modelItem => item.Destination.Name))
-            </p>
-
-            <img class="rounded mx-auto d-block barPicture" src="@Url.Content(item.PictureAdress)" alt="BarPicture">
-
-            <hr />
-
-            Work time:
-            @Html.DisplayFor(modelItem => item.BeginningOfTheWorkDay) -
-            @Html.DisplayFor(modelItem => item.EndOfTheWorkDay)<br />
-
-            <span class="description">@Html.DisplayFor(modelItem => item.Description)<br /></span>
-            <a href="@Html.DisplayFor(modelItem => item.FacebookPageUrl)">Facebook page</a><br />
-            <a class="btnsViewRight" asp-action="Details" asp-route-id="@item.Id">Details</a>
-        </div>
+        @Html.Partial("ShowBarsWithFeatureOrInDestinationPartialView", item)
     }
 </div>

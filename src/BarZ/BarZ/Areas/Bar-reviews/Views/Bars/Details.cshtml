@@ -10,7 +10,7 @@
         <h1>@Html.DisplayFor(model => model.Name)</h1>
     </div>
     <div class="halfScreenBox">
-        <a class="col-md-4 btn btn-info btnsViewRight" href="##" onClick="history.go(-1); return false;">Go back</a>
+        <a class="col-md-4 btn btn-info btnsViewRight" asp-action="Index">Reviews</a>
     </div>
 </div>
 
@@ -80,6 +80,7 @@
                 <ul>No Information.</ul>
             }
         </div>
+
         <div class="halfScreenBox">
             <h4 class="text-info">Events:</h4>
 
@@ -87,13 +88,16 @@
             {
                 @foreach (var item in Model.Events)
                 {
-                    <div style="border:1px solid lightgray; margin:30px; padding:40px">
-                        <a asp-controller="Events" asp-action="Details" asp-route-id="@item.Id">
-                            <h1 style="margin-top:-20px">@Html.DisplayFor(modelItem => item.EventName)</h1>
-                        </a>
+                    if (item.DateAndTime > DateTime.UtcNow)
+                    {
+                        <div style="border:1px solid lightgray; margin:30px; padding:40px">
+                            <a asp-controller="Events" asp-action="Details" asp-route-id="@item.Id">
+                                <h1 style="margin-top:-20px">@Html.DisplayFor(modelItem => item.EventName)</h1>
+                            </a>
 
-                        <div class="font-weight-light">@Html.DisplayFor(modelItem => item.DateAndTime)</div>
-                    </div>
+                            <div class="font-weight-light">@Html.DisplayFor(modelItem => item.DateAndTime)</div>
+                        </div>
+                    }
                 }
             }
             else
