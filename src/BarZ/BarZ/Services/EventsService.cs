@@ -1,5 +1,6 @@
 ﻿namespace BarZ.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -19,7 +20,7 @@
             this.dbContext = dbContext;
         }
 
-        public IEnumerable<EventViewModel> GetAll()
+        public IEnumerable<EventViewModel> GetAllFutureEvents()
         {
             IEnumerable<EventViewModel> events = this.dbContext.Events
                 .Select(e => new EventViewModel
@@ -31,6 +32,25 @@
                     Info = e.Info,
                     Bar = e.Bar,
                 })
+                .Where(e=>e.DateAndTime > DateTime.UtcNow)
+                .OrderBy(e => e.DateAndTime)
+                .ToList();
+
+            return events;
+        }
+        public IEnumerable<EventViewModel> GetAllPastEvents()
+        {
+            IEnumerable<EventViewModel> events = this.dbContext.Events
+                .Select(e => new EventViewModel
+                {
+                    Id = e.Id,
+                    EventName = e.EventName,
+                    DateAndTime = e.DateAndTime,
+                    Fee = e.Fee,
+                    Info = e.Info,
+                    Bar = e.Bar,
+                })
+                .Where(e => e.DateAndTime < DateTime.UtcNow)
                 .OrderBy(e => e.DateAndTime)
                 .ToList();
 

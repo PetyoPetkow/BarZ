@@ -7,7 +7,8 @@ namespace BarZ.Services.Interfaces
 {
     public interface IEventsService
     {
-        IEnumerable<EventViewModel> GetAll();
+        IEnumerable<EventViewModel> GetAllFutureEvents();
+        IEnumerable<EventViewModel> GetAllPastEvents();
         EventUpdateBindingModel GetByIdForUpdateMethod(int? id);
         EventDeleteBindingModel GetByIdForDeleteMethod(int? id);
         EventViewModel GetById(int? id);

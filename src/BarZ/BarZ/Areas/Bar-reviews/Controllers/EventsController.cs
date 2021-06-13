@@ -26,7 +26,13 @@
 
         public IActionResult Index()
         {
-            var events = this.eventsService.GetAll();
+            var events = this.eventsService.GetAllFutureEvents();
+            return View(events);
+        }
+
+        public IActionResult PastEvents()
+        {
+            var events = this.eventsService.GetAllPastEvents();
             return View(events);
         }
 

@@ -1,16 +1,15 @@
 ﻿@model IEnumerable<EventViewModel>
 
 @{
-    ViewData["Title"] = "Events";
+    ViewData["Title"] = "Past Events";
 }
 
 <div class="container">
     <div class="halfScreenBox">
-        <h1>Future Events:</h1>
+        <h1>Past Events:</h1>
     </div>
     <div class="halfScreenBox">
-        <a class="col-md-4 btn btn-info" asp-action="PastEvents">Past Events</a>
-        <a class="col-md-4 btn btn-info btnsViewRight" asp-action="Create">Add Event</a>
+        <a class="col-md-4 btn btn-info btnsViewRight" href="##" onClick="history.go(-1); return false;">Go back</a>
     </div>
 </div>
 
@@ -37,7 +36,7 @@
                 @if (this.User.IsInRole(RolesConstants.AdminRoleName))
                 {
                     <a asp-action="Update" asp-route-id="@item.Id">Update</a>
-                    <span>|</span> 
+                    <span>|</span>
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete </a>
                 }
             </span>
