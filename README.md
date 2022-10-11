@@ -11,3 +11,7 @@ ASP.NET project
 		
 	
   Admin - Тази роля дава достъп до всички налични операции за моделите. Админът може както да създава, така и да променя и да трие.
+
+requirements to run the project:
+-SQL server, SSMS
+-SDK .NET 5.0
